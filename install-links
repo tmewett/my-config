@@ -1,35 +1,29 @@
 #!/usr/bin/env fish
 
-set links \
+function link-home
+    set cwd (pwd)
+    for f in $argv
+        set dest $HOME/$f
+        mkdir -p (dirname $dest)
+        ln -sT $cwd/$f $dest
+    end
+end
+
+link-home \
     .config/ranger \
-    .my-config \
-    .password-store \
+    .my-config/* \
     .config/fish/* \
-    Documents/* \
     (find \
         .config/Code \
     -type f)
 
-set privs \
-    .password-store \
-    Documents/* \
-    .my-config/*
+if test -e private
+    cd private
 
-set cwd (pwd)
-
-function link -a target dest
-    if test -e $target
-        mkdir -p (basename $dest)
-        ln -s $target $dest
-    end
-end
-
-for f in $links
-    link $cwd/$f $HOME/$f
-end
-
-for f in $privs
-    link $cwd/private/$f $HOME/$f
+    link-home \
+        .password-store \
+        Documents/* \
+        .my-config/*
 end
 
 ln -s Code $HOME/.config/'Code - OSS'
