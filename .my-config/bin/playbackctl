@@ -1,0 +1,23 @@
+#!/usr/bin/env fish
+
+argparse "h/help" -- $argv
+
+# Print the script as a default --help action
+begin
+    set -l file (status filename)
+    if set -q _flag_help; and test -e $file
+        set -l full_file (realpath $file)
+        echo "### file $full_file"
+        cat $full_file
+        exit
+    end
+end
+
+switch $argv[1]
+    case play-pause
+        xte "key XF86AudioPlay"
+    case next
+        xte "key XF86AudioNext"
+    case prev
+        xte "key XF86AudioPrev"
+end

@@ -1,0 +1,35 @@
+#!/usr/bin/env fish
+
+set links \
+    .config/ranger \
+    .my-config \
+    .password-store \
+    .config/fish/* \
+    Documents/* \
+    (find \
+        .config/Code \
+    -type f)
+
+set privs \
+    .password-store \
+    Documents/* \
+    .my-config/*
+
+set cwd (pwd)
+
+function link -a target dest
+    if test -e $target
+        mkdir -p (basename $dest)
+        ln -s $target $dest
+    end
+end
+
+for f in $links
+    link $cwd/$f $HOME/$f
+end
+
+for f in $privs
+    link $cwd/private/$f $HOME/$f
+end
+
+ln -s Code $HOME/.config/'Code - OSS'

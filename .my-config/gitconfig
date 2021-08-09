@@ -1,0 +1,12 @@
+[core]
+	editor = nui-editor-wait
+[gui]
+	stageuntracked = no
+	commitmsgwidth = 72
+	spellingdictionary = none
+	geometry = 1280x720 300 400
+[pull]
+	ff = only
+[rebase]
+	abbreviateCommands = true
+	autoSquash = true

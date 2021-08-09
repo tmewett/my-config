@@ -1,0 +1,19 @@
+#!/usr/bin/env fish
+
+argparse "h/help" -- $argv
+
+# Print the script as a default --help action
+begin
+    set -l file (status filename)
+    if set -q _flag_help; and test -e $file
+        set -l full_file (realpath $file)
+        echo "### file $full_file"
+        cat $full_file
+        exit
+    end
+end
+
+if test (count $argv) -gt 0
+    set args --initial-title="$argv" --dynamic-title-mode=before -x $argv
+end
+xfce4-terminal $args

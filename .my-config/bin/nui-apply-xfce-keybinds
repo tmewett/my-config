@@ -1,0 +1,42 @@
+#!/usr/bin/env fish
+
+argparse "h/help" -- $argv
+
+# Print the script as a default --help action
+begin
+    set -l file (status filename)
+    if set -q _flag_help; and test -e $file
+        set -l full_file (realpath $file)
+        echo "### file $full_file"
+        cat $full_file
+        exit
+    end
+end
+
+function keybind
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t string -p $argv[1] -s $argv[2]
+end
+
+keybind "/commands/custom/<Super>p"                  "xfce4-display-settings --minimal"
+# Run in Fish to preserve PATH for Rifle
+keybind "/commands/custom/<Super>f"                  "exo-open --launch FileManager"
+keybind "/commands/custom/<Super>t"                  "fish -c 'exec in-terminal'"
+# Have to run these in Fish as playbackctl is not in the standard /bin/sh PATH
+# Also lift the keys because the Audio keys don't work unless pressed by themselves
+keybind "/commands/custom/<Super>F4"                 "fish -c 'xte \"keyup Super_L\" \"keyup F4\" && playbackctl play-pause'"
+keybind "/commands/custom/<Super>F5"                 "fish -c 'xte \"keyup Super_L\" \"keyup F5\" && playbackctl prev'"
+keybind "/commands/custom/<Super>F6"                 "fish -c 'xte \"keyup Super_L\" \"keyup F6\" && playbackctl next'"
+keybind "/commands/custom/<Super><Shift>s"           "systemctl suspend"
+
+keybind "/xfwm4/custom/<Super>1"                     "workspace_1_key"
+keybind "/xfwm4/custom/<Super>2"                     "workspace_2_key"
+keybind "/xfwm4/custom/<Super>3"                     "workspace_3_key"
+keybind "/xfwm4/custom/<Super>4"                     "workspace_4_key"
+keybind "/xfwm4/custom/<Super>h"                     "tile_left_key"
+keybind "/xfwm4/custom/<Super>k"                     "maximize_window_key"
+keybind "/xfwm4/custom/<Super>l"                     "tile_right_key"
+keybind "/xfwm4/custom/<Super>y"                     "tile_up_left_key"
+keybind "/xfwm4/custom/<Super>u"                     "tile_up_right_key"
+keybind "/xfwm4/custom/<Super>b"                     "tile_down_left_key"
+keybind "/xfwm4/custom/<Super>n"                     "tile_down_right_key"
+keybind "/xfwm4/custom/<Super>Tab"                   "switch_window_key"
