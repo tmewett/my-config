@@ -27,4 +27,8 @@
     "terminal.integrated.allowChords": false,
     "git-graph.commitDetailsView.location": "Docked to Bottom",
     "git-graph.markdown": false,
+    "[plaintext]": {
+        "editor.fontFamily": "Sans",
+        "editor.fontSize": 16
+    }
 }
