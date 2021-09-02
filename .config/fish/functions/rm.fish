@@ -1,10 +1,8 @@
 function rm --wraps=rm
+    __nui_vars
     if status is-interactive
-    and begin
-        test "$NUI_RM_TRASHES" = "true"
-        or not set -q NUI_RM_TRASHES
-        and which trash >/dev/null 2>&1
-    end
+    and test "$NUI_RM_TRASHES" = "true"
+    and type -q trash
         trash $argv
     else
         command rm $argv

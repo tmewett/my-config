@@ -1,16 +1,13 @@
 #!/usr/bin/env fish
 
 argparse "h/help" -- $argv
+or exit 1
 
 # Print the script as a default --help action
-begin
-    set -l file (status filename)
-    if set -q _flag_help; and test -e $file
-        set -l full_file (realpath $file)
-        echo "### file $full_file"
-        cat $full_file
-        exit
-    end
+if set -q _flag_help; and test -e (status filename)
+    echo "### file "(status filename)
+    cat (status filename)
+    exit
 end
 
 __nui_vars
