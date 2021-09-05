@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-argparse -n homestead -s "h/help" "u" "s" "no-cwd" "shell" -- $argv
+argparse -n homestead -s "h/help" "u" "s" "n/no-cwd" "shell" -- $argv
 or exit 1
 
 set homesteads /home/steads
@@ -20,8 +20,8 @@ If COMMAND is not specified, an interactive shell is started.
 The homestead overlay is stored in $homesteads.
 
 Options:
-  --no-cwd      don't pass the current directory through the sandbox
-  -s            make the sandbox more isolated (may affect behaviour)
+  -n, --no-cwd  don't pass the current directory through the sandbox
+  -s            make the sandbox more isolated (may break some programs)
   -u            unmount & cleanup instead of entering
   -h, --help    show this help text"
     exit

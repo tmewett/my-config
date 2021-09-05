@@ -1,0 +1,53 @@
+#!/usr/bin/env fish
+
+argparse "h/help" -- $argv
+or exit 1
+# Print the script as a default --help action
+begin
+    set -l file (status filename)
+    if set -q _flag_help; and test -e $file
+        set -l full_file (realpath $file)
+        echo "### file $full_file"
+        cat $full_file
+        exit
+    end
+end
+
+# Write the script here
+set dir (realpath $argv[1])
+set html /tmp/gallery.html
+
+begin
+    echo "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body {
+                background-color: #333;
+            }
+            .image {
+                min-height: 67vh;
+            }
+            img {
+                display: block;
+                max-width: 100%;
+                max-height: 167vh;
+                margin: auto;
+            }
+        </style>
+    </head>
+    <body>
+    "
+
+    for f in $dir/*
+        echo "<div class='image'><img src='$f'></div>"
+    end
+
+    echo "
+    </body>
+    </html>
+    "
+end > $html
+
+firefox --private-window $html
