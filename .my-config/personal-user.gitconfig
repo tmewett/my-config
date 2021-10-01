@@ -3,5 +3,3 @@
 [user]
 	name = Tom M
 	email = tom@collider.in
-[includeIf "gitdir:~/Codethink/"]
-	path = codethink-user.gitconfig

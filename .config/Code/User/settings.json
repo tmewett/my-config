@@ -28,12 +28,12 @@
     "git-graph.commitDetailsView.location": "Docked to Bottom",
     "git-graph.markdown": false,
     "[plaintext]": {
-        "editor.fontFamily": "Sans",
+        "editor.fontFamily": "Helvetica Neue, Sans",
         "editor.fontSize": 16,
         "editor.wordWrap": "on"
     },
     "[markdown]": {
-        "editor.fontFamily": "Sans",
+        "editor.fontFamily": "Helvetica Neue, Sans",
         "editor.fontSize": 16,
         "editor.wordWrap": "on"
     },

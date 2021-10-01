@@ -5,7 +5,11 @@ function link-home
     for f in $argv
         set dest $HOME/$f
         mkdir -p (dirname $dest)
-        ln -sT $cwd/$f $dest
+        if test -e $dest -a ! -L $dest
+            ls -lP $dest
+            test (read -P "delete $dest? (y/N) ") = "y" && rm -r $dest
+        end
+        test ! -e $dest && ln -s $cwd/$f $dest
     end
 end
 
