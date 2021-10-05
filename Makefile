@@ -11,3 +11,8 @@ push: save
 
 pull:
 	git pull --rebase --autostash
+
+sync:
+	git pull --rebase --autostash
+	git commit -am "Sync"
+	git push
