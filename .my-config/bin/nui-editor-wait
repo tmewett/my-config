@@ -13,9 +13,7 @@ begin
     end
 end
 
-__nui_vars
-
-if not set -q DISPLAY
+if not set -q _NUI_GRAPHICAL
     $NUI_TERMINAL_EDITOR $argv
 else if set -q NUI_EDITOR_WAIT
     $NUI_EDITOR_WAIT $argv

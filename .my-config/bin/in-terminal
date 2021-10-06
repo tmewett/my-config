@@ -1,6 +1,7 @@
 #!/usr/bin/env fish
 
-argparse "h/help" -- $argv
+argparse -s "h/help" -- $argv
+or exit 1
 
 # Print the script as a default --help action
 begin
@@ -13,7 +14,32 @@ begin
     end
 end
 
-if test (count $argv) -gt 0
-    set args --initial-title="$argv" --dynamic-title-mode=before -x $argv
+set argc (count $argv)
+if set -q _NUI_MACOS
+    if test $argc -eq 0
+        exec open -a Terminal .
+    else
+        set script (mktemp -t in-terminal)
+        printf "#!/usr/bin/env fish\n"(string join -- ' ' (string escape -- $argv))"\nrm (status filename)\n" > $script
+        chmod +x $script
+        exec open -a Terminal $script
+    end
 end
-xfce4-terminal $args
+
+if not set -q NUI_TERMINAL
+    if type -q exo-open
+        set -g NUI_TERMINAL exo-open --launch TerminalEmulator
+    else if type -q gnome-terminal
+        set -g NUI_TERMINAL gnome-terminal --
+    end
+end
+
+if not set -q NUI_TERMINAL_CMD
+    set -g NUI_TERMINAL_CMD $NUI_TERMINAL
+end
+
+if test $argc -eq 0
+    exec $NUI_TERMINAL
+else
+    exec $NUI_TERMINAL_CMD $argv
+end

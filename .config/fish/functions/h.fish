@@ -11,10 +11,9 @@ function h
             echo "Alt-Bksp  Delete word"
         end | column
     else
-        __nui_vars
-        if set -q DISPLAY; and test $NUI_H_NEW_TERMINAL = true
+        if set -q _NUI_GRAPHICAL; and test $NUI_H_NEW_TERMINAL = true
             # We won't inherit any temp functions in a new terminal
-            $NUI_TERMINAL_CMD fish -c "$thing --help 2>&1 | less -R"
+            in-terminal fish -c "$thing --help 2>&1 | less -R"
         else
             $thing --help 2>&1 | less -R
         end

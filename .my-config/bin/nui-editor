@@ -10,9 +10,7 @@ if set -q _flag_help; and test -e (status filename)
     exit
 end
 
-__nui_vars
-
-if not set -q DISPLAY
+if not set -q _NUI_GRAPHICAL
     $NUI_TERMINAL_EDITOR $argv
 else
     $NUI_EDITOR $argv
