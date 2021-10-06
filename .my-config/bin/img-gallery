@@ -13,8 +13,16 @@ begin
     end
 end
 
-# Write the script here
-set dir (realpath $argv[1])
+function print-image -a path
+    if test -d $path
+        for file in $path/*
+            print-image $file
+        end
+    else
+        echo "<div class='image'><img src='$path' loading='lazy'></div>"
+    end
+end
+
 set html /tmp/gallery.html
 
 begin
@@ -40,8 +48,8 @@ begin
     <body>
     "
 
-    for f in $dir/*
-        echo "<div class='image'><img src='$f'></div>"
+    for path in $argv
+        print-image $path
     end
 
     echo "

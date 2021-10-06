@@ -1,5 +1,5 @@
 function cat --wraps=cat
-    which bat > /dev/null
+    type -q bat
     and bat --paging=never $argv
     or command cat $argv
 end
