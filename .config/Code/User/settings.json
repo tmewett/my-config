@@ -37,5 +37,13 @@
         "editor.fontSize": 16,
         "editor.wordWrap": "on"
     },
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "dance.modes": {
+        "insert": {
+            "hiddenSelectionsIndicatorsDecoration": {}
+        },
+        "normal": {
+            "hiddenSelectionsIndicatorsDecoration": {}
+        },
+    }
 }

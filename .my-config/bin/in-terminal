@@ -39,7 +39,7 @@ if not set -q NUI_TERMINAL_CMD
 end
 
 if test $argc -eq 0
-    exec $NUI_TERMINAL
+    $NUI_TERMINAL
 else
-    exec $NUI_TERMINAL_CMD $argv
+    $NUI_TERMINAL_CMD $argv
 end
