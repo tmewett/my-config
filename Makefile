@@ -14,5 +14,6 @@ pull:
 
 sync:
 	git pull --rebase --autostash
-	git commit -am "Sync"
+	git add .
+	git commit -m "Sync"
 	git push
