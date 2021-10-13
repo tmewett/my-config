@@ -29,15 +29,20 @@
     "git-graph.markdown": false,
     "[plaintext]": {
         "editor.fontFamily": "Helvetica Neue, Sans",
-        "editor.fontSize": 16,
+        "editor.lineHeight": 0,
         "editor.wordWrap": "on"
     },
     "[markdown]": {
         "editor.fontFamily": "Helvetica Neue, Sans",
-        "editor.fontSize": 16,
+        "editor.lineHeight": 0,
         "editor.wordWrap": "on"
     },
     "security.workspace.trust.untrustedFiles": "open",
+    "editor.fontFamily": "'MxPlus IBM VGA 8x16'",
+    "editor.fontSize": 16,
+    "editor.lineHeight": 17,
+    "workbench.fontAliasing": "antialiased",
+    "terminal.integrated.fontFamily": "Monaco, monospace",
     "dance.modes": {
         "insert": {
             "hiddenSelectionsIndicatorsDecoration": {}
@@ -45,5 +50,5 @@
         "normal": {
             "hiddenSelectionsIndicatorsDecoration": {}
         },
-    }
+    },
 }
