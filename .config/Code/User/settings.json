@@ -29,12 +29,14 @@
     "git-graph.markdown": false,
     "[plaintext]": {
         "editor.fontFamily": "Helvetica Neue, Sans",
-        "editor.lineHeight": 0,
+        "editor.lineHeight": 20,
+        "editor.fontSize": 16,
         "editor.wordWrap": "on"
     },
     "[markdown]": {
         "editor.fontFamily": "Helvetica Neue, Sans",
-        "editor.lineHeight": 0,
+        "editor.lineHeight": 20,
+        "editor.fontSize": 16,
         "editor.wordWrap": "on"
     },
     "security.workspace.trust.untrustedFiles": "open",
