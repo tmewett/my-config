@@ -3,7 +3,7 @@ function r -d "browse a directory or open a file"
     if test "$argc" -eq 0
         ranger
     else if test -d $argv[1] -a $argc -eq 1
-        cd $argv[1]
+        ranger $argv[1]
     else
         rifle $argv
     end
