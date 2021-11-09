@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-argparse "h/help" -- $argv
+argparse "h/help" "r" -- $argv
 or exit 1
 # Print the script as a default --help action
 begin
@@ -18,12 +18,18 @@ function print-image -a path
         for file in $path/*
             print-image $file
         end
+    else if string match -q '*.mp4' $path
+        echo "<div class='image'><video autoplay loop><source src='$path' type='video/mp4'></video></div>"
     else
         echo "<div class='image'><img src='$path' loading='lazy'></div>"
     end
 end
 
 set html /tmp/gallery.html
+set files $argv/*
+if set -q _flag_r
+    set files (string join \n $files | shuf)
+end
 
 begin
     echo "
@@ -37,7 +43,7 @@ begin
             .image {
                 min-height: 67vh;
             }
-            img {
+            img, video {
                 display: block;
                 max-width: 100%;
                 max-height: 167vh;
@@ -48,7 +54,7 @@ begin
     <body>
     "
 
-    for path in $argv
+    for path in $files
         print-image $path
     end
 
