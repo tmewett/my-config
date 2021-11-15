@@ -42,4 +42,12 @@
 			"{ |$1| $0 }",
 		],
 	},
+	"err test": {
+		"prefix": "iferr",
+		"body": [
+			"if err != nil {",
+			"\t$0",
+			"}"
+		]
+	}
 }
