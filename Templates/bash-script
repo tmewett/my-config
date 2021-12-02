@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 print_help() {
     # Print the file as the default help text.
@@ -18,4 +19,3 @@ while true; do
     esac
     shift
 done
-
