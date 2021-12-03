@@ -3,15 +3,19 @@
 argparse -s "h/help" -- $argv
 or exit 1
 
-# Print the script as a default --help action
-begin
-    set -l file (status filename)
-    if set -q _flag_help; and test -e $file
-        set -l full_file (realpath $file)
-        echo "### file $full_file"
-        cat $full_file
-        exit
-    end
+function print_help
+    echo -n \
+"Usage: in-terminal [COMMAND...]
+       t [COMMAND...]
+
+Open a new terminal window, optionally with a given command.
+"
+# TODO Document variables
+end
+
+if set -q _flag_help
+    print_help
+    exit
 end
 
 set argc (count $argv)
@@ -20,22 +24,15 @@ if set -q _NUI_MACOS
         exec open -a Terminal .
     else
         set script (mktemp -t in-terminal)
-        printf "#!/usr/bin/env fish\n"(string join -- ' ' (string escape -- $argv))"\nrm (status filename)\n" > $script
+        begin
+            echo "#!/usr/bin/env fish"
+            echo "rm (status filename)"
+            echo "cd "(string escape -- (pwd))
+            echo (string join -- ' ' (string escape -- $argv))
+        end > $script
         chmod +x $script
         exec open -a Terminal $script
     end
-end
-
-if not set -q NUI_TERMINAL
-    if type -q exo-open
-        set -g NUI_TERMINAL exo-open --launch TerminalEmulator
-    else if type -q gnome-terminal
-        set -g NUI_TERMINAL gnome-terminal --
-    end
-end
-
-if not set -q NUI_TERMINAL_CMD
-    set -g NUI_TERMINAL_CMD $NUI_TERMINAL
 end
 
 if test $argc -eq 0
