@@ -1,0 +1,31 @@
+#!/usr/bin/env fish
+
+set html /tmp/txt.html
+
+begin
+    echo "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body {
+                font-size: 16pt;
+                line-height: 1.4;
+                max-width: 45em;
+                margin: auto;
+                font-family: sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+    "
+
+    cat $argv | string join "<br>"
+
+    echo "
+    </body>
+    </html>
+    "
+end > $html
+
+firefox --private-window $html

@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-argparse "h/help" -- $argv
+argparse -s "h/help" -- $argv
 or exit 1
 
 function print_help

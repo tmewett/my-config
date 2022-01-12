@@ -19,7 +19,7 @@ function print-image -a path
             print-image $file
         end
     else if string match -q '*.mp4' $path
-        echo "<div class='image'><video autoplay loop><source src='$path' type='video/mp4'></video></div>"
+        echo "<div class='image'><video autoplay loop muted><source src='$path' type='video/mp4'></video></div>"
     else
         echo "<div class='image'><img src='$path' loading='lazy'></div>"
     end
