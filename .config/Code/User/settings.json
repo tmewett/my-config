@@ -53,4 +53,5 @@
         },
     },
     "diffEditor.renderSideBySide": false,
+    "scm.defaultViewMode": "tree",
 }
