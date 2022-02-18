@@ -1,5 +1,3 @@
-[include]
-	path = gitconfig
 [user]
 	name = Tom M
 	email = tom@collider.in
