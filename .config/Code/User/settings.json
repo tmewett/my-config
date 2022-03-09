@@ -38,18 +38,15 @@
         "editor.fontSize": 16,
         "editor.wordWrap": "on"
     },
-    // "editor.fontFamily": "'MxPlus IBM VGA 8x16'",
-    // "editor.fontSize": 16,
-    // "editor.lineHeight": 17,
-    // "workbench.fontAliasing": "antialiased",
-    // "terminal.integrated.fontFamily": "Monaco, monospace",
     "security.workspace.trust.untrustedFiles": "open",
     "dance.modes": {
         "insert": {
             "hiddenSelectionsIndicatorsDecoration": {}
         },
         "normal": {
-            "hiddenSelectionsIndicatorsDecoration": {}
+            "hiddenSelectionsIndicatorsDecoration": {},
+            "cursorStyle": "block",
+            "selectionBehavior": "character"
         },
     },
     "diffEditor.renderSideBySide": false,
