@@ -45,10 +45,10 @@
         },
         "normal": {
             "hiddenSelectionsIndicatorsDecoration": {},
-            "cursorStyle": "block",
-            "selectionBehavior": "character"
+            "cursorStyle": "block-outline"
         },
     },
     "diffEditor.renderSideBySide": false,
     "scm.defaultViewMode": "tree",
+    "workbench.colorTheme": "Monokai",
 }

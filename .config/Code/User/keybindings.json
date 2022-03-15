@@ -51,5 +51,15 @@
         "key": "ctrl+v",
         "command": "-dance.modes.set.temporarily.normal",
         "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "ctrl+alt+i",
+        "command": "dance.seek.askObject.inner",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "alt+i",
+        "command": "-dance.seek.askObject.inner",
+        "when": "editorTextFocus && dance.mode == 'normal'"
     }
 ]
