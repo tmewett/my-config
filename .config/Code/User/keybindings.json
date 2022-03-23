@@ -28,11 +28,6 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "alt+z",
-        "command": "-dance.marks.combineSelections.fromRegister",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
         "key": "ctrl+r",
         "command": "-dance.registers.insert",
         "when": "editorTextFocus && dance.mode == 'normal'"
@@ -60,6 +55,11 @@
     {
         "key": "alt+i",
         "command": "-dance.seek.askObject.inner",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "alt+z",
+        "command": "-dance.selections.restore.withCurrent",
         "when": "editorTextFocus && dance.mode == 'normal'"
     }
 ]
