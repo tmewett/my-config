@@ -9,18 +9,24 @@ set -gx TERMCMD in-terminal
 set -gx LESS "-j 0.5\$ -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$ $LESS"
 
 
-# Enable fzf if installed.
-if functions -q fzf_key_bindings
-    fzf_key_bindings
+if status is-interactive
+    # Enable fzf if installed.
+    # Look for bindings script in default Homebrew location.
+    if not functions -q fzf_key_bindings && test -f /usr/local/opt/fzf/shell/key-bindings.fish
+        source /usr/local/opt/fzf/shell/key-bindings.fish
+    end
+    if functions -q fzf_key_bindings
+        fzf_key_bindings
+    end
+
+    if type -q fzf
+        # Bind Ctrl-O to quick-search and open a file with r.
+        bind \co 'begin
+            set -l sel (fzf --no-sort)
+            and r $sel
+        end'
+    end
 end
-
-
-# Bind Ctrl-O to quick-search and open a file with r.
-bind \co 'begin
-    set -l sel (fzf --no-sort)
-    and r $sel
-end'
-
 
 ### Variable defaults ###
 
