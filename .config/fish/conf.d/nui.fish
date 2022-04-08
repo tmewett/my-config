@@ -11,9 +11,13 @@ set -gx LESS "-j 0.5\$ -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?p
 
 if status is-interactive
     # Enable fzf if installed.
-    # Look for bindings script in default Homebrew location.
-    if not functions -q fzf_key_bindings && test -f /usr/local/opt/fzf/shell/key-bindings.fish
-        source /usr/local/opt/fzf/shell/key-bindings.fish
+    # Look for bindings script in default Homebrew locations.
+    if not functions -q fzf_key_bindings
+        if test -f /usr/local/opt/fzf/shell/key-bindings.fish  # Intel
+            source /usr/local/opt/fzf/shell/key-bindings.fish
+        else if test -f /opt/homebrew/opt/fzf/shell/key-bindings.fish  # Apple silicon
+            source /opt/homebrew/opt/fzf/shell/key-bindings.fish
+        end
     end
     if functions -q fzf_key_bindings
         fzf_key_bindings
