@@ -50,5 +50,6 @@
     },
     "diffEditor.renderSideBySide": false,
     "scm.defaultViewMode": "tree",
-    "workbench.colorTheme": "Monokai",
+    "workbench.activityBar.visible": false,
+    "activitusbar.toggleSidebar": false,
 }
