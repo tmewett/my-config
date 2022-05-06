@@ -52,4 +52,5 @@
     "scm.defaultViewMode": "tree",
     "workbench.activityBar.visible": false,
     "activitusbar.toggleSidebar": false,
+    "editor.accessibilitySupport": "off"
 }
