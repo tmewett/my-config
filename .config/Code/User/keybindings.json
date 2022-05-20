@@ -28,38 +28,36 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "ctrl+r",
-        "command": "-dance.registers.insert",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "-dance.registers.insert",
-        "when": "editorTextFocus && dance.mode == 'insert'"
-    },
-    {
-        "key": "ctrl+v",
-        "command": "-dance.modes.set.temporarily.insert",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
-        "key": "ctrl+v",
-        "command": "-dance.modes.set.temporarily.normal",
-        "when": "editorTextFocus && dance.mode == 'insert'"
-    },
-    {
-        "key": "ctrl+alt+i",
-        "command": "dance.seek.askObject.inner",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
-        "key": "alt+i",
-        "command": "-dance.seek.askObject.inner",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
         "key": "alt+z",
         "command": "-dance.selections.restore.withCurrent",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+g",
+        "command": "git-graph.view"
+    },
+    {
+        "key": "ctrl+\\",
+        "command": "workbench.action.splitEditor"
+    },
+    {
+        "key": "alt+0",
+        "command": "cursorPageDown",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+9",
+        "command": "cursorPageUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "m",
+        "command": "dance.seek.askObject",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "alt+m",
+        "command": "dance.seek.askObject.inner",
         "when": "editorTextFocus && dance.mode == 'normal'"
     }
 ]
