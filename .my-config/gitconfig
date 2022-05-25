@@ -7,6 +7,8 @@
 	geometry = 1280x720 300 400
 [pull]
 	ff = only
+[push]
+	default = upstream
 [rebase]
 	abbreviateCommands = true
 	autoSquash = true

@@ -52,5 +52,6 @@
     "scm.defaultViewMode": "tree",
     "workbench.activityBar.visible": false,
     "activitusbar.toggleSidebar": false,
-    "editor.accessibilitySupport": "off"
+    "editor.accessibilitySupport": "off",
+    "code-runner.saveFileBeforeRun": true,
 }
