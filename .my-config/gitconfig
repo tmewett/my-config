@@ -1,5 +1,7 @@
 [core]
 	editor = nui-editor-wait
+[fetch]
+	prune = true
 [gui]
 	stageuntracked = no
 	commitmsgwidth = 72
