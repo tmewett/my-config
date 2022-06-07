@@ -28,7 +28,8 @@
 			"$$ $0 $$",
 		],
 	},
-	"Ruby do block": {
+	"do block": {
+		"scope": "ruby",
 		"prefix": "dobl",
 		"body": [
 			"do |$1|",
@@ -36,7 +37,8 @@
 			"end",
 		],
 	},
-	"Ruby inline block": {
+	"inline block": {
+		"scope": "ruby",
 		"prefix": "ibl",
 		"body": [
 			"{ |$1| $0 }",
@@ -48,6 +50,14 @@
 			"if err != nil {",
 			"\t$0",
 			"}"
+		]
+	},
+	"end block": {
+		"prefix": "end",
+		"body": [
+			"",
+			"\t$0",
+			"end"
 		]
 	}
 }
