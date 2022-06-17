@@ -2,11 +2,12 @@
 set -gx TERMCMD in-terminal
 
 
-# -j 0.5 - search results appear in middle of screen
+# -j .5 - search results appear in middle of screen
+# -F - quit if one screen
 # -R - don't escape colours and text effects
 # -P prompt - the default medium/-m prompt, modified to always show the file
 #   (not just on first prompt) and appended with help info like 'man'
-set -gx LESS "-j 0.5\$ -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$ $LESS"
+set -gx LESS "-j .5 -F -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$ $LESS"
 
 
 if status is-interactive

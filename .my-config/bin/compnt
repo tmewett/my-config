@@ -1,0 +1,87 @@
+#!/usr/bin/env fish
+
+argparse "h/help" -- $argv
+or exit 1
+
+# Print the script as a default --help action
+function print_help
+    test -e (status filename); or return
+    echo "### file "(status filename)
+    cat (status filename)
+end
+
+if set -q _flag_help
+    print_help
+    exit
+end
+
+if not set -q XDG_STATE_HOME
+    set XDG_STATE_HOME $HOME/.local/state
+end
+
+set _compnt $XDG_STATE_HOME/compnt
+set compnt_root $_compnt/components
+set manual_dir $_compnt/manual
+set stage_root $_compnt/staging
+
+function get_key
+    $script key
+end
+
+switch $argv[1]
+# Run describe and write state to the staging root.
+case add
+    set script $argv[2]
+    set key (get_key)
+    if set -q COMPNT_PARENT
+        touch $COMPNT_PARENT/sub/$key
+    else
+        set root_inst
+        touch $manual_dir/$key
+    end
+    # cp $script $stage_root/$key/script
+    begin
+        set -lx COMPNT_PARENT $stage_root/$key
+        set -lx COMPNT_STATE $stage_root/$key/st
+        $script describe
+    end
+    echo $key >> $stage_log
+
+    if set -q root_inst
+        for staged in (cat $stage_log)
+            if test -e $compnt_root/$staged
+                # undo removed subthings
+                for old_sub in $compnt_root/$staged/sub/*
+                    set old_sub_key (basename $old_sub)
+                    if test ! -e $stage_root/$staged/sub/$old_sub_key
+                        undo $old_sub_key #recurse
+                    end
+                end
+                # undo old
+                undo1 $compnt_root/$staged
+            end
+            # do new
+            do1 $stage_root/$staged
+        end
+    end
+# Carry out system changes; mount/unmount/update component.
+case do
+    # state files
+    set old $argv[2]
+    set new $argv[3]
+    if test -e $old
+        $script undo $old
+    end
+    if test -e $old
+        $script undo $old
+    end
+    $script do $new
+    # if test -e $old -a -e $new
+    #     $script update $old $new
+    #     if test $status -eq 2
+    #         $script undo $old
+    #         and $script do $new
+    #     end
+    # end
+    end
+end
