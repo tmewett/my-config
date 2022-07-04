@@ -69,5 +69,10 @@
         "key": "ctrl+v",
         "command": "-dance.modes.set.temporarily.insert",
         "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "-dance.select.vertically",
+        "when": "editorTextFocus && dance.mode == 'normal'"
     }
 ]
