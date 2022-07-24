@@ -54,4 +54,5 @@
     "activitusbar.toggleSidebar": false,
     "editor.accessibilitySupport": "off",
     "code-runner.saveFileBeforeRun": true,
+    "editor.bracketPairColorization.enabled": false,
 }
