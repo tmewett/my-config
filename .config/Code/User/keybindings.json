@@ -74,5 +74,10 @@
         "key": "ctrl+b",
         "command": "-dance.select.vertically",
         "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "shift+space",
+        "command": "editor.action.wordHighlight.trigger",
+        "when": "editorTextFocus && dance.mode == 'normal'"
     }
 ]
