@@ -55,4 +55,6 @@
     "editor.accessibilitySupport": "off",
     "code-runner.saveFileBeforeRun": true,
     "editor.bracketPairColorization.enabled": false,
+    "workbench.editor.languageDetection": false,
+    "workbench.editor.historyBasedLanguageDetection": false,
 }
