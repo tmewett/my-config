@@ -48,7 +48,7 @@
 		"prefix": "iferr",
 		"body": [
 			"if err != nil {",
-			"\t$0",
+			"\t$0return nil, err",
 			"}"
 		]
 	},

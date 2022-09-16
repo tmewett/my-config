@@ -14,3 +14,5 @@
 [rebase]
 	abbreviateCommands = true
 	autoSquash = true
+[submodule]
+	recurse = true
