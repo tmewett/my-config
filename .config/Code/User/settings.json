@@ -13,7 +13,6 @@
     "editor.find.autoFindInSelection": "multiline",
     "git-graph.dialog.rebase.ignoreDate": false,
     "git-graph.dialog.stashUncommittedChanges.includeUntracked": false,
-    "editor.minimap.enabled": false,
     "git-graph.dialog.resetCurrentBranchToCommit.mode": "Hard",
     "workbench.startupEditor": "newUntitledFile",
     "window.restoreWindows": "none",
@@ -57,4 +56,5 @@
     "editor.bracketPairColorization.enabled": false,
     "workbench.editor.languageDetection": false,
     "workbench.editor.historyBasedLanguageDetection": false,
+    "editor.minimap.enabled": false,
 }

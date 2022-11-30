@@ -35,6 +35,10 @@ end
 
 ### Variable defaults ###
 
+if not set -q EDITOR
+    set -gx EDITOR nui-editor-wait
+end
+
 if not set -q NUI_EDITOR
     set -g NUI_EDITOR xdg-open
 end
