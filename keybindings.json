@@ -51,26 +51,6 @@
         "when": "textInputFocus"
     },
     {
-        "key": "m",
-        "command": "dance.seek.askObject",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
-        "key": "alt+m",
-        "command": "dance.seek.askObject.inner",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
-        "key": "ctrl+v",
-        "command": "-dance.modes.set.temporarily.normal",
-        "when": "editorTextFocus && dance.mode == 'insert'"
-    },
-    {
-        "key": "ctrl+v",
-        "command": "-dance.modes.set.temporarily.insert",
-        "when": "editorTextFocus && dance.mode == 'normal'"
-    },
-    {
         "key": "ctrl+b",
         "command": "-dance.select.vertically",
         "when": "editorTextFocus && dance.mode == 'normal'"
@@ -79,5 +59,40 @@
         "key": "shift+space",
         "command": "editor.action.wordHighlight.trigger",
         "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "-dance.select.vertically",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "-dance.select.vertically",
+        "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "up",
+        "command": "-selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+    },
+    {
+        "key": "down",
+        "command": "-selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+    },
+    {
+        "key": "ctrl+shift+z",
+        "command": "-extension.decrementPriority",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+v",
+        "command": "-dance.modes.set.temporarily.insert",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+v",
+        "command": "-dance.modes.set.temporarily.normal",
+        "when": "editorTextFocus && dance.mode == 'insert'"
     }
 ]

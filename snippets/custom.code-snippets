@@ -15,18 +15,27 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-
-	"Empty triple-quoted string": {
-		"prefix": "3s",
+	"Multiline arrow": {
+		"prefix": "mar",
 		"body": [
-			"\"\"\"$0\"\"\"",
-		],
+			"($0) => {",
+			"\t",
+			"}"
+		]
 	},
-	"LaTeX math block": {
-		"prefix": "lm",
+	"Arrow": {
+		"prefix": "ar",
 		"body": [
-			"$$ $0 $$",
-		],
+			"=> "
+		]
+	},
+	"Curly block": {
+		"prefix": "bl",
+		"body": [
+			"{",
+			"\t${TM_SELECTED_TEXT}",
+			"}"
+		]
 	},
 	"do block": {
 		"scope": "ruby",
@@ -44,12 +53,10 @@
 			"{ |$1| $0 }",
 		],
 	},
-	"err test": {
-		"prefix": "iferr",
+	"Triple-quoted string": {
+		"prefix": "3s",
 		"body": [
-			"if err != nil {",
-			"\t$0return nil, err",
-			"}"
+			"\"\"\"$0\"\"\""
 		]
 	},
 	"end block": {

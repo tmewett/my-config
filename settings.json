@@ -1,13 +1,14 @@
 {
     "files.exclude": {
-        "**/*.o": true
+        "**/*.o": true,
+        ".venv": true,
     },
-    "workbench.editor.enablePreview": false,
+    // "workbench.editor.enablePreview": false,
     "files.insertFinalNewline": true,
     "files.hotExit": "off",
     "editor.acceptSuggestionOnEnter": "off",
     "extensions.ignoreRecommendations": true,
-    "editor.quickSuggestionsDelay": 100,
+    "editor.quickSuggestionsDelay": 200,
     "git-graph.dialog.deleteBranch.forceDelete": true,
     "git-graph.dialog.createBranch.checkOut": true,
     "editor.find.autoFindInSelection": "multiline",
@@ -26,15 +27,16 @@
     "git-graph.commitDetailsView.location": "Docked to Bottom",
     "git-graph.markdown": false,
     "[plaintext]": {
-        "editor.fontFamily": "Helvetica Neue, Sans",
+        "editor.tabCompletion": "off",
+        "editor.fontFamily": "Arial, Helvetica Neue, Sans",
         "editor.lineHeight": 20,
-        "editor.fontSize": 16,
+        "editor.fontSize": 18,
         "editor.wordWrap": "on"
     },
     "[markdown]": {
-        "editor.fontFamily": "Helvetica Neue, Sans",
+        "editor.fontFamily": "Arial, Helvetica Neue, Sans",
         "editor.lineHeight": 20,
-        "editor.fontSize": 16,
+        "editor.fontSize": 18,
         "editor.wordWrap": "on"
     },
     "security.workspace.trust.untrustedFiles": "open",
@@ -45,16 +47,34 @@
         "normal": {
             "hiddenSelectionsIndicatorsDecoration": {},
             "cursorStyle": "block-outline"
+            // "selectionBehavior": "character"
         },
     },
     "diffEditor.renderSideBySide": false,
     "scm.defaultViewMode": "tree",
-    "workbench.activityBar.visible": false,
-    "activitusbar.toggleSidebar": false,
     "editor.accessibilitySupport": "off",
-    "code-runner.saveFileBeforeRun": true,
     "editor.bracketPairColorization.enabled": false,
     "workbench.editor.languageDetection": false,
     "workbench.editor.historyBasedLanguageDetection": false,
     "editor.minimap.enabled": false,
+    "code-runner.executorMap": {
+        "python": "test -e Makefile && make $fullFileName; test -e .venv/bin/activate && source .venv/bin/activate; python -u $fullFileName",
+    },
+    "code-runner.saveAllFilesBeforeRun": true,
+    "workbench.sideBar.location": "right",
+    "html.autoCreateQuotes": false,
+    "search.searchOnType": false,
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "window.commandCenter": false,
+    "explorer.confirmDelete": false,
+    "git.ignoreMissingGitWarning": true,
+    "todotxtmode.removePriorityFromCompletedTasks": true,
+    "workbench.editor.empty.hint": "hidden",
+    "explorer.confirmDragAndDrop": false,
+    "files.eol": "\n",
+    "window.zoomLevel": -1,
+    // "git.path": "C:\\Users\\Tom\\bin\\wslgit.exe",
 }
