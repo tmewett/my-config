@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "usage: e FILENAME
+
+Edit a file."
+}
+
+wait=no
+
+if test $# -eq 0; then
+    print_help
+    exit 1
+fi
+
+while true; do
+    case "$1" in
+    -h|--help)
+        print_help
+        exit 0
+        ;;
+    *)
+        break
+        ;;
+    esac
+    shift
+done
+
+case "$0" in
+ewait|*/ewait)
+    wait=yes
+    ;;
+esac
+
+if test -n "$E_EDITOR_WAIT" -a $wait = yes; then
+    editor="$E_EDITOR_WAIT"
+else
+    editor="$E_EDITOR"
+fi
+
+$editor "$@"

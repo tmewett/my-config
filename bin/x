@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "usage: x COMMAND..."
+}
+
+if test $# -eq 0; then
+    print_help
+    exit 1
+fi
+
+while true; do
+    case "$1" in
+    -h|--help)
+        print_help
+        exit 0
+        ;;
+    *)
+        break
+        ;;
+    esac
+    shift
+done
+
+$@ &> /dev/null &
+disown
