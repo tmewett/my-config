@@ -38,4 +38,9 @@ else
     editor="$E_EDITOR"
 fi
 
+if test -z "$editor"; then
+    echo "error: E_EDITOR not set"
+    exit 1
+fi
+
 $editor "$@"
