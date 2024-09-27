@@ -6,10 +6,6 @@
         "when": "editorFocus"
     },
     {
-        "key": "ctrl+d",
-        "command": "editor.action.duplicateSelection"
-    },
-    {
         "key": "ctrl+shift+d",
         "command": "-workbench.view.debug"
     },

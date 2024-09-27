@@ -3,7 +3,6 @@
         "**/*.o": true,
         ".venv": true,
     },
-    // "workbench.editor.enablePreview": false,
     "files.insertFinalNewline": true,
     "files.hotExit": "off",
     "editor.acceptSuggestionOnEnter": "off",
@@ -76,5 +75,7 @@
     "explorer.confirmDragAndDrop": false,
     "files.eol": "\n",
     "window.zoomLevel": -1,
-    // "git.path": "C:\\Users\\Tom\\bin\\wslgit.exe",
+    "amVim.smartRelativeLineNumbers": true,
+    "amVim.useSystemClipboard": true,
+    "bookmarks.label.suggestion": "useWhenSelected",
 }
