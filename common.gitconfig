@@ -1,5 +1,6 @@
 [core]
 	editor = fish -c 'nui-editor-wait'
+	autocrlf = input
 [fetch]
 	prune = true
 [gui]
