@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+#eval "$WINDOWS_ENV"
+TEMP="$ORIGINAL_TEMP"
+TMP="$ORIGINAL_TMP"
+PATH="$WINDOWS_PATH"
+# export MSYS2_ARG_CONV_EXCL='*'
+exec "$@"

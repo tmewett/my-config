@@ -1,3 +1,5 @@
+# WIP script for showing a macOS Finder window of the shell cwd
+
 function _nui_update_preview -e fish_postexec
     set cwd (pwd)
     if set -q _nui_preview; and test "$_prev_cwd" != $cwd

@@ -22,5 +22,9 @@ while true; do
     shift
 done
 
-$@ &> /dev/null &
+if [ -v MSYSTEM ]; then
+    w "$@" &> /dev/null &
+else
+    "$@" &> /dev/null &
+fi
 disown

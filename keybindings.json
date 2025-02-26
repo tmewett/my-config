@@ -1,19 +1,6 @@
 // Place your key bindings in this file to override the defaultsauto[]
 [
     {
-        "key": "ctrl+d",
-        "command": "-editor.action.addSelectionToNextFindMatch",
-        "when": "editorFocus"
-    },
-    {
-        "key": "ctrl+shift+d",
-        "command": "-workbench.view.debug"
-    },
-    {
-        "key": "ctrl+shift+d",
-        "command": "editor.action.addSelectionToNextFindMatch"
-    },
-    {
         "key": "shift+alt+q",
         "command": "extension.filterTextInplace",
         "args": { "cmd": "fmt -w 80" }
@@ -89,6 +76,26 @@
     {
         "key": "ctrl+v",
         "command": "-dance.modes.set.temporarily.normal",
+        "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "ctrl+d",
+        "command": "-dance.select.vertically",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+d",
+        "command": "-dance.select.vertically",
+        "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-dance.edit.selectRegister-insert",
+        "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-dance.edit.selectRegister-insert",
         "when": "editorTextFocus && dance.mode == 'insert'"
     }
 ]

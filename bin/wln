@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "Usage: $0 TARGET [LINK_NAME]"
+    exit 1
+fi
+
+# target="$(cygpath -w "$1")"
+target="$1"
+
+if [ -z "$2" ] || [ -d "$2" ]; then
+    link_name="${2:-.}\\$(basename "$1")"
+else
+    link_name="$2"
+fi
+
+# link_name="$(cygpath -w "$link_name")"
+
+[ -d "$target" ] && dir_arg="/h"
+
+# "/c/Program Files/PowerShell/7/pwsh.exe" -Command "New-Item -ItemType SymbolicLink -Path \"$link_name\" -Target \"$target\""
+echo w cmd /c mklink $dir_arg \""$link_name"\" \""$target"\"
+w cmd /c mklink $dir_arg \""$link_name"\" \""$target"\"

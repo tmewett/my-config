@@ -17,4 +17,9 @@ while true; do
     shift
 done
 
+if [[ -x /c/msys64/msys2.exe ]]; then
+    /c/msys64/msys2.exe
+    exit
+fi
+
 open -a "$T_TERMINAL_APP" .
