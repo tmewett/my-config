@@ -15,14 +15,15 @@ if set -q _flag_help
     exit
 end
 
+set temp (mktemp -d)
+
 function finish -a ret
     test -d $temp && rm -r $temp
     exit $ret
 end
 
-set temp (mktemp -d)
 grep -vE '^\s*[#;]|^\s*$' $argv |sort |uniq >$temp/selections
-pikaur -Qeq |sort >$temp/existing
+pacman -Qeq |sort >$temp/existing
 or finish 1
 
 echo -e "INSTALLED\n\tSPECIFIED"
@@ -32,27 +33,27 @@ if set -q _flag_n
     finish 0
 end
 
-pikaur -Qq |sort >$temp/installed
+pacman -Qq |sort >$temp/installed
 or finish 1
 
 # installed n selections \ existing
 set to_expl (comm -12 $temp/installed $temp/selections |comm -23 - $temp/existing)
 if count $to_expl
-    pikaur -D --asexplicit $to_expl
+    pacman -D --asexplicit $to_expl
     or finish 1
 end
 
 # existing \ selections
 set to_dep (comm -23 $temp/existing $temp/selections)
 if count $to_dep
-    pikaur -D --asdeps $to_dep
+    pacman -D --asdeps $to_dep
     or finish 1
 end
 
 # selections \ installed
 set to_install (comm -13 $temp/installed $temp/selections)
 if count $to_install
-    pikaur -S $to_install
+    pacman -S $to_install
     or finish 1
 end
 
