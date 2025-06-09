@@ -1,18 +1,23 @@
 #!/usr/bin/env fish
 
-argparse "h/help" "n/dry-run" -- $argv
+argparse "n/dry-run" -- $argv
 or exit 1
 
-# Print the script as a default --help action
-function print_help
-    test -e (status filename); or return
-    echo "### file "(status filename)
-    cat (status filename)
-end
-
-if set -q _flag_help
-    print_help
-    exit
+if type -q pacman
+    function get_explicitly_installed; pacman -Qeq; end
+    function get_installed; pacman -Qq; end
+    function mark_implicit; pacman -D --asdeps $argv; end
+    function mark_explicit; pacman -D --asexplicit $argv; end
+    function install; pacman -S $argv; end
+else if type -q apt
+    function get_explicitly_installed; apt-mark showmanual; end
+    function get_installed; dpkg-query -f '${Package}\n' -W; end
+    function mark_implicit; apt-mark auto $argv; end
+    function mark_explicit; apt-mark manual $argv; end
+    function install; apt install $argv; end
+else
+    echo "No pacman or apt detected."
+    exit 1
 end
 
 set temp (mktemp -d)
@@ -22,8 +27,8 @@ function finish -a ret
     exit $ret
 end
 
-grep -vE '^\s*[#;]|^\s*$' $argv |sort |uniq >$temp/selections
-pacman -Qeq |sort >$temp/existing
+grep -vE '^\s*[#;]|^\s*$' ~/pkgapply_packages |sort |uniq >$temp/selections
+get_explicitly_installed |sort >$temp/existing
 or finish 1
 
 echo -e "INSTALLED\n\tSPECIFIED"
@@ -33,27 +38,27 @@ if set -q _flag_n
     finish 0
 end
 
-pacman -Qq |sort >$temp/installed
+get_installed |sort >$temp/installed
 or finish 1
 
 # installed n selections \ existing
 set to_expl (comm -12 $temp/installed $temp/selections |comm -23 - $temp/existing)
 if count $to_expl
-    pacman -D --asexplicit $to_expl
+    mark_explicit $to_expl
     or finish 1
 end
 
 # existing \ selections
 set to_dep (comm -23 $temp/existing $temp/selections)
 if count $to_dep
-    pacman -D --asdeps $to_dep
+    mark_implicit $to_dep
     or finish 1
 end
 
 # selections \ installed
 set to_install (comm -13 $temp/installed $temp/selections)
 if count $to_install
-    pacman -S $to_install
+    install $to_install
     or finish 1
 end
 
