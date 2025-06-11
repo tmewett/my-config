@@ -97,5 +97,15 @@
         "key": "ctrl+r",
         "command": "-dance.edit.selectRegister-insert",
         "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "shift+alt+down",
+        "command": "editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+alt+down",
+        "command": "-editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
     }
 ]
