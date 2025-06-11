@@ -27,7 +27,7 @@ function finish -a ret
     exit $ret
 end
 
-grep -vE '^\s*[#;]|^\s*$' ~/pkgapply_packages |sort |uniq >$temp/selections
+grep -vE '^\s*[#;]|^\s*$' $argv[1] |sort |uniq >$temp/selections
 get_explicitly_installed |sort >$temp/existing
 or finish 1
 
