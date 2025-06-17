@@ -20,6 +20,5 @@ if status is-interactive
         function fish_user_key_bindings
             fzf_key_bindings
         end
-        source /opt/local/share/fzf/shell/key-bindings.fish
     end
 end

@@ -17,6 +17,7 @@ while true; do
     shift
 done
 
-exec w wt nt -d "$(cygpath -w "$(pwd)")" -p MSYS2
+# exec w wt nt -d "$(cygpath -w "$(pwd)")" -p MSYS2
+exec $T_TERMINAL
 
 # open -a "$T_TERMINAL_APP" .
