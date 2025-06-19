@@ -16,9 +16,10 @@ abbr -a -- e. explorer .
 set -gx LESS "-j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$"
 
 if status is-interactive
-    if type -q fzf
         function fish_user_key_bindings
-            fzf_key_bindings
+            if type -q fzf
+                fzf_key_bindings
+            end
+            fish_vi_key_bindings
         end
-    end
 end
