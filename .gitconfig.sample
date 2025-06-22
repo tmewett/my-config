@@ -1,0 +1,5 @@
+[user]
+	name = "Tom M"
+	email = tom@tmewett.com
+[include]
+	path = C:\\msys64\\home\\Tom\\my-config\\common.gitconfig
