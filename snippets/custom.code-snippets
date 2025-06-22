@@ -29,6 +29,14 @@
 			"=> "
 		]
 	},
+	"for-of": {
+		"prefix": "forof",
+		"body": [
+			"for (const $0) {",
+			"\t",
+			"}"
+		]
+	},
 	"Curly block": {
 		"prefix": "bl",
 		"body": [
