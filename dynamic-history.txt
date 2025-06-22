@@ -1,0 +1,7 @@
+#
+&ia=web
+google\.co\.uk/maps
+to-do\.live\.com
+www\.geocaching\.com/live
+inoreader\.com/search
+//webmail\.
