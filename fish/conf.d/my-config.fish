@@ -16,10 +16,13 @@ abbr -a -- e. explorer .
 set -gx LESS "-j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$"
 
 if status is-interactive
-        function fish_user_key_bindings
-            if type -q fzf
-                fzf_key_bindings
-            end
-            fish_vi_key_bindings
+    function fish_user_key_bindings
+        if type -q fzf
+            fzf_key_bindings
         end
+        fish_vi_key_bindings
+    end
 end
+
+set -e fish_user_paths
+set -p PATH ~/.local/bin (dirname (status filename)/../../bin)
