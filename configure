@@ -1,0 +1,24 @@
+#!/usr/bin/env fish
+
+function has_string_changed -a key value
+    if test ! -e vars/$key
+        echo -n $value > vars/$key
+        return 0
+    end
+    read -z last_value < vars/$key
+    if test $value = $last_value
+        return 1
+    end
+    echo -n $value > vars/$key
+    return 0
+end
+
+mkdir -p vars
+
+if has_string_changed watchexec_version 2.3.2
+    set dir (mktemp -d)
+    and curl -L https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz \
+        | tar -m -C $dir -J --strip-components=1 -x
+    and mv $dir/watchexec $HOME/.local/bin/watchexec
+    rm -r $dir
+end
