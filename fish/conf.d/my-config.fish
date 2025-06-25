@@ -25,4 +25,4 @@ if status is-interactive
 end
 
 set -e fish_user_paths
-set -p PATH ~/.local/bin (dirname (status filename)/../../bin)
+set -p PATH ~/.local/bin (dirname (status filename))/../../bin
