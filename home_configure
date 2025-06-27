@@ -15,13 +15,16 @@ end
 
 function safe_symlink -a to from
     if test -L $from
+        echo "safe_symlink: removing existing symlink $from"
         rm $from
     end
+    echo "safe_symlink: creating $from -> $to"
     ln -sT $to $from
 end
 
 function safe_rm_symlink -a link
     if test -L $link
+        echo "safe_rm_symlink: removing $link"
         rm $link
     end
 end
@@ -38,7 +41,60 @@ if has_string_changed watchexec_version 2.3.2
     rm -r $dir
 end
 
+safe_rm_symlink ~/.config/fish/conf.d
+
 if test common.gitconfig -nt ~/.gitconfig
     echo -e "[user]\n\tname = Tom Mewett\n\temail = tom.mewett@codethink.co.uk" > ~/.gitconfig
     cat common.gitconfig >> ~/.gitconfig
 end
+
+function packages_pacman_get_explicitly_installed; pacman -Qeq; end
+function packages_pacman_get_installed; pacman -Qq; end
+function packages_pacman_mark_implicit; pacman -D --asdeps $argv; end
+function packages_pacman_mark_explicit; pacman -D --asexplicit $argv; end
+function packages_pacman_install; pacman -S $argv; end
+function packages_apt_get_explicitly_installed; apt-mark showmanual; end
+function packages_apt_get_installed; dpkg-query -f '${Package}\n' -W; end
+function packages_apt_mark_implicit; apt-mark auto $argv; end
+function packages_apt_mark_explicit; apt-mark manual $argv; end
+function packages_apt_install; apt install $argv; end
+if type -q pacman
+    set packages_manager pacman
+else if type -q apt
+    set packages_manager apt
+end
+function packages_apply -a temp
+    grep -vE '^\s*[#;]|^\s*$' $argv[1] |sort |uniq >$temp/selections
+    packages_{$packages_provider}_get_explicitly_installed |sort >$temp/existing
+    or return 1
+
+    echo -e "INSTALLED\n\tSPECIFIED"
+    comm --total -3 $temp/existing $temp/selections
+
+    packages_{$packages_provider}_get_installed |sort >$temp/installed
+    or return 1
+
+    # installed n selections \ existing
+    set to_expl (comm -12 $temp/installed $temp/selections |comm -23 - $temp/existing)
+    if count $to_expl
+        packages_{$packages_provider}_mark_explicit $to_expl
+        or return 1
+    end
+
+    # existing \ selections
+    set to_dep (comm -23 $temp/existing $temp/selections)
+    if count $to_dep
+        packages_{$packages_provider}_mark_implicit $to_dep
+        or return 1
+    end
+
+    # selections \ installed
+    set to_install (comm -13 $temp/installed $temp/selections)
+    if count $to_install
+        packages_{$packages_provider}_install $to_install
+        or return 1
+    end
+end
+set temp (mktemp -d)
+packages_apply $temp
+rm -r $temp

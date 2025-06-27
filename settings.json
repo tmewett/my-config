@@ -78,5 +78,5 @@
     "editor.bracketPairColorization.enabled": false,
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingQuotes": "never",
-    "workbench.colorTheme": "Robin's Blue Theme",
+    "workbench.colorTheme": "GitHub Light",
 }
