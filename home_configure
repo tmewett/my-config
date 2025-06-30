@@ -1,52 +1,42 @@
 #!/usr/bin/env fish
 
 function has_string_changed -a key value
-    if test ! -e vars/$key
-        echo -n $value > vars/$key
+    if test ! -e $hc_state/_hsc_$key
+        set -q hc_dry_run || echo -n $value > $hc_state/_hsc_$key
         return 0
     end
-    read -z last_value < vars/$key
+    read -z last_value < $hc_state/_hsc_$key
     if test $value = $last_value
         return 1
     end
-    echo -n $value > vars/$key
+    set -q hc_dry_run || echo -n $value > $hc_state/_hsc_$key
     return 0
 end
 
 function safe_symlink -a to from
     if test -L $from
         echo "safe_symlink: removing existing symlink $from"
-        rm $from
+        set -q hc_dry_run || rm $from
     end
     echo "safe_symlink: creating $from -> $to"
-    ln -sT $to $from
+    set -q hc_dry_run || ln -sT $to $from
 end
 
 function safe_rm_symlink -a link
     if test -L $link
         echo "safe_rm_symlink: removing $link"
-        rm $link
+        set -q hc_dry_run || rm $link
     end
 end
 
-cd (dirname (status filename))
+argparse "n/dry-run" -- $argv
+or exit 1
+set -q _flag_n
+and set -g hc_dry_run
 
-mkdir -p vars
+set hc_state ~/.config/home_configure/state
 
-if has_string_changed watchexec_version 2.3.2
-    set dir (mktemp -d)
-    and curl -L https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz \
-        | tar -m -C $dir -J --strip-components=1 -x
-    and mv $dir/watchexec $HOME/.local/bin/watchexec
-    rm -r $dir
-end
-
-safe_rm_symlink ~/.config/fish/conf.d
-
-if test common.gitconfig -nt ~/.gitconfig
-    echo -e "[user]\n\tname = Tom Mewett\n\temail = tom.mewett@codethink.co.uk" > ~/.gitconfig
-    cat common.gitconfig >> ~/.gitconfig
-end
+mkdir -p $hc_state
 
 function packages_pacman_get_explicitly_installed; pacman -Qeq; end
 function packages_pacman_get_installed; pacman -Qq; end
@@ -58,43 +48,60 @@ function packages_apt_get_installed; dpkg-query -f '${Package}\n' -W; end
 function packages_apt_mark_implicit; apt-mark auto $argv; end
 function packages_apt_mark_explicit; apt-mark manual $argv; end
 function packages_apt_install; apt install $argv; end
-if type -q pacman
-    set packages_manager pacman
-else if type -q apt
-    set packages_manager apt
-end
-function packages_apply -a temp
-    grep -vE '^\s*[#;]|^\s*$' $argv[1] |sort |uniq >$temp/selections
-    packages_{$packages_provider}_get_explicitly_installed |sort >$temp/existing
+function packages_apply -a manager
+    set selections $argv[1..]
+    if not has_string_changed pkgapply_$manager "$selections"
+        return
+    end
+    set explicit (packages_{$manager}_get_explicitly_installed)
     or return 1
-
-    echo -e "INSTALLED\n\tSPECIFIED"
-    comm --total -3 $temp/existing $temp/selections
-
-    packages_{$packages_provider}_get_installed |sort >$temp/installed
+    set installed (packages_{$manager}_get_installed)
     or return 1
-
-    # installed n selections \ existing
-    set to_expl (comm -12 $temp/installed $temp/selections |comm -23 - $temp/existing)
-    if count $to_expl
-        packages_{$packages_provider}_mark_explicit $to_expl
+    # installed n selections \ explicit
+    for pkg in $installed
+        if contains $pkg $selections; and not contains $pkg $explicit
+            set -a make_explicit $pkg
+        end
+    end
+    if count $make_explicit > /dev/null
+        echo "packages_apply $manager: marking as wanted: $make_explicit"
+        set -q hc_dry_run || packages_{$manager}_mark_explicit $make_explicit
         or return 1
     end
-
-    # existing \ selections
-    set to_dep (comm -23 $temp/existing $temp/selections)
-    if count $to_dep
-        packages_{$packages_provider}_mark_implicit $to_dep
+    # explicit \ selections
+    for pkg in $explicit
+        if not contains $pkg $selections
+            set -a make_implicit $pkg
+        end
+    end
+    if count $make_implicit > /dev/null
+        echo "packages_apply $manager: marking as dependency: $make_implicit"
+        set -q hc_dry_run || packages_{$manager}_mark_implicit $make_implicit
         or return 1
     end
-
     # selections \ installed
-    set to_install (comm -13 $temp/installed $temp/selections)
-    if count $to_install
-        packages_{$packages_provider}_install $to_install
+    for pkg in $selections
+        if not contains $pkg $installed
+            set -a install $pkg
+        end
+    end
+    if count $install > /dev/null
+        echo "packages_apply $manager: installing $install"
+        set -q hc_dry_run || packages_{$manager}_install $install
         or return 1
     end
 end
-set temp (mktemp -d)
-packages_apply $temp
-rm -r $temp
+
+source ~/home-configuration.fish
+
+if set -q watchexec
+    if has_string_changed watchexec_version 2.3.2
+        set dir (mktemp -d)
+        and curl -L https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz \
+          | tar -m -C $dir -J --strip-components=1 -x
+        and mv $dir/watchexec $HOME/.local/bin/watchexec
+        rm -r $dir
+    end
+end
+
+safe_rm_symlink ~/.config/fish/conf.d
