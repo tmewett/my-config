@@ -34,7 +34,7 @@ or exit 1
 set -q _flag_n
 and set -g hc_dry_run
 
-set hc_state ~/.config/home_configure/state
+set hc_state ~/.config/home-configure/state
 
 mkdir -p $hc_state
 
