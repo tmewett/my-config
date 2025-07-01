@@ -49,7 +49,7 @@ function packages_apt_mark_implicit; apt-mark auto $argv; end
 function packages_apt_mark_explicit; apt-mark manual $argv; end
 function packages_apt_install; apt install $argv; end
 function packages_apply -a manager
-    set selections $argv[1..]
+    set selections $argv[2..]
     if not has_string_changed pkgapply_$manager "$selections"
         return
     end
