@@ -45,9 +45,9 @@ function packages_pacman_mark_explicit; pacman -D --asexplicit $argv; end
 function packages_pacman_install; pacman -S $argv; end
 function packages_apt_get_explicitly_installed; apt-mark showmanual; end
 function packages_apt_get_installed; dpkg-query -f '${Package}\n' -W; end
-function packages_apt_mark_implicit; apt-mark auto $argv; end
-function packages_apt_mark_explicit; apt-mark manual $argv; end
-function packages_apt_install; apt install $argv; end
+function packages_apt_mark_implicit; sudo apt-mark auto $argv; end
+function packages_apt_mark_explicit; sudo apt-mark manual $argv; end
+function packages_apt_install; sudo apt install $argv; end
 function packages_apply -a manager
     set selections $argv[2..]
     if not has_string_changed pkgapply_$manager "$selections"
