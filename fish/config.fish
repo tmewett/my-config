@@ -27,6 +27,6 @@ end
 set -e fish_user_paths
 set -p PATH ~/.local/bin (dirname (status filename))/../bin
 
-if type -q zoxide
-    zoxide init fish | source
+if w -q zoxide
+    w zoxide init fish | source
 end
