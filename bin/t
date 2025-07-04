@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 print_help() {
-    echo "usage: t"
+    echo "usage: t [COMMAND...]"
 }
 
 while true; do
@@ -18,6 +18,8 @@ while true; do
 done
 
 # exec w wt nt -d "$(cygpath -w "$(pwd)")" -p MSYS2
-exec $T_TERMINAL
-
+if [ $# -eq 0 ]; then
+    exec $T_TERMINAL
+fi
+exec ${T_TERMINAL_CMD:-$T_TERMINAL} "$@"
 # open -a "$T_TERMINAL_APP" .

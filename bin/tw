@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-
-command="pwsh"
-[[ "$#" -ge 1 ]] && command=("$@")
-# exec w cmd //c start "${command[@]}"
-exec w wt nt -d "$(cygpath -w "$(pwd)")" pwsh -c "${command[*]}"
+t w "$@"

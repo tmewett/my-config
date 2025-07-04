@@ -11,11 +11,11 @@ set -e MSYS2_ARG_CONV_EXCL
 #   (not just on first prompt) and appended with help info like 'man'
 set -gx LESS "-j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$"
 
-if status is-interactive
-    abbr -a -- xc x code
-    abbr -a -- lg wt lazygit
-    abbr -a -- e. explorer .
+abbr -a -- c x code
+abbr -a -- g t w lazygit
+abbr -a -- r explorer .
 
+if status is-interactive
     function fish_user_key_bindings
         if type -q fzf
             fzf_key_bindings
@@ -26,6 +26,13 @@ end
 
 set -e fish_user_paths
 set -p PATH ~/.local/bin (dirname (status filename))/../bin
+source $HOME/.cargo/env.fish
+
+if type -q gnome-terminal
+    set -x T_TERMINAL gnome-terminal --
+else if w -q wt
+    set -x T_TERMINAL 'w wt nt -d "$(cygpath -w "$(pwd)")" -p MSYS2'
+end
 
 if w -q zoxide
     w zoxide init fish | source
