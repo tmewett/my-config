@@ -26,12 +26,16 @@ end
 
 set -e fish_user_paths
 set -p PATH ~/.local/bin (dirname (status filename))/../bin
-source $HOME/.cargo/env.fish
+
+# rustup
+if test -e $HOME/.cargo/env.fish
+    source $HOME/.cargo/env.fish
+end
 
 if type -q gnome-terminal
     set -x T_TERMINAL gnome-terminal --
 else if w -q wt
-    set -x T_TERMINAL 'w wt nt -d "$(cygpath -w "$(pwd)")" -p MSYS2'
+    set -x T_TERMINAL 'w wt nt -p MSYS2'
 end
 
 if w -q zoxide
