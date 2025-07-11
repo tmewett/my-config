@@ -1,16 +1,29 @@
 #!/usr/bin/env fish
 
-function has_string_changed -a key value
-    if test ! -e $hc_state/_hsc_$key
-        set -q hc_dry_run || echo -n $value > $hc_state/_hsc_$key
+function hc_state_changed -a key value
+    if test ! -e $hc_state/$key
         return 0
     end
-    read -z last_value < $hc_state/_hsc_$key
+    read -z last_value < $hc_state/$key
     if test $value = $last_value
         return 1
     end
-    set -q hc_dry_run || echo -n $value > $hc_state/_hsc_$key
     return 0
+end
+
+function hc_state_changed_do -a key value
+    if not hc_state_changed $key $value
+        return 1
+    end
+    echo "updating $key"
+    if set -q hc_dry_run
+        return 1
+    end
+    return 0
+end
+
+function hc_state_save -a key value
+    set -q hc_dry_run || echo -n $value > $hc_state/$key
 end
 
 function safe_symlink -a to from
@@ -95,11 +108,12 @@ end
 source ~/home-configuration.fish
 
 if set -q watchexec
-    if has_string_changed watchexec_version 2.3.2
+    if hc_state_changed_do watchexec_version 2.3.2
         set dir (mktemp -d)
         and curl -L https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz \
           | tar -m -C $dir -J --strip-components=1 -x
         and mv $dir/watchexec $HOME/.local/bin/watchexec
+        and hc_state_save watchexec_version 2.3.2
         rm -r $dir
     end
 end
