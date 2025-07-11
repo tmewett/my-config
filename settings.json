@@ -79,4 +79,7 @@
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingQuotes": "never",
     "workbench.colorTheme": "GitHub Dark",
+    "files.associations": {
+        "*.bzl": "python"
+    },
 }

@@ -1,33 +1,20 @@
 #!/usr/bin/env fish
 
-function link-home
-    set cwd (pwd)
-    for f in $argv
-        set dest $HOME/$f
-        mkdir -p (dirname $dest)
-        if test -e $dest -a ! -L $dest
-            ls -lP $dest
-            test (read -P "delete $dest? (y/N) ") = "y" && rm -r $dest
-        end
-        test ! -e $dest && ln -s $cwd/$f $dest
+function safe_symlink -a to from
+    if test -L $from
+        echo "safe_symlink: removing existing symlink $from"
+        rm $from
     end
+    if test -e $from
+        ls -l $from
+        test (read -P "delete $from? (y/N) ") = "y" || return
+        rm -r $from
+    end
+    echo "safe_symlink: creating $from -> $to"
+    mkdir -p (dirname $from)
+    ln -sT $to $from
 end
 
-link-home \
-    .config/ranger \
-    .my-config/* \
-    .config/fish/* \
-    (find \
-        .config/Code \
-    -type f)
+set root (pwd)
 
-if test -e private
-    cd private
-
-    link-home \
-        .password-store \
-        Documents/* \
-        .my-config/*
-end
-
-ln -s Code $HOME/.config/'Code - OSS'
+safe_symlink $root/lazygit/config.yml $HOME/.config/lazygit/config.yml
