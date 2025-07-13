@@ -12,9 +12,12 @@ function safe_symlink -a to from
     end
     echo "safe_symlink: creating $from -> $to"
     mkdir -p (dirname $from)
-    ln -sT $to $from
+    wln -sT $to $from
 end
 
 set root (pwd)
+not set -q USERPROFILE && set USERPROFILE $HOME
+not set -q LOCALAPPDATA && set LOCALAPPDATA $HOME/.config
 
-safe_symlink $root/lazygit/config.yml $HOME/.config/lazygit/config.yml
+safe_symlink (nativepath $root/lazygit/config.yml) $LOCALAPPDATA/lazygit/config.yml
+safe_symlink (nativepath $root/textadept/init.lua) $USERPROFILE/.textadept/init.lua

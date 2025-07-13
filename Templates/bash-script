@@ -1,10 +1,8 @@
-#!/usr/bin/env bash
-set -eu
+#!/bin/bash
+set -u
 
 print_help() {
-    # Print the file as the default help text.
-    echo "### file $(realpath $0)"
-    cat $0
+    echo "no help available, sorry"
 }
 
 while true; do
