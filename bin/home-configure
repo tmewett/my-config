@@ -11,15 +11,9 @@ function hc_state_changed -a key value
     return 0
 end
 
-function hc_state_changed_do -a key value
-    if not hc_state_changed $key $value
-        return 1
-    end
-    echo "updating $key"
-    if set -q hc_dry_run
-        return 1
-    end
-    return 0
+function hc_do -a message
+    echo $message
+    set -q hc_dry_run
 end
 
 function hc_state_save -a key value
@@ -29,16 +23,35 @@ end
 function safe_symlink -a to from
     if test -L $from
         echo "safe_symlink: removing existing symlink $from"
-        set -q hc_dry_run || rm $from
+        rm $from
+    end
+    if test -e $from
+        ls -l $from
+        test (read -P "delete $from? (y/N) ") = "y" || return
+        rm -r $from
     end
     echo "safe_symlink: creating $from -> $to"
-    set -q hc_dry_run || ln -sT $to $from
+    mkdir -p (dirname $from)
+    ln -sT $to $from
 end
 
 function safe_rm_symlink -a link
     if test -L $link
         echo "safe_rm_symlink: removing $link"
         set -q hc_dry_run || rm $link
+    end
+end
+
+function hc_if -a message
+    if test $status -eq 0
+        not set -q hc_dry_run && $argv[2..]
+    end
+end
+
+function hc_symlink_if -a to from
+    if test $status -eq 0
+        echo "symlinking $from -> $to"
+        not set -q hc_dry_run; and safe_symlink $argv
     end
 end
 
@@ -63,7 +76,7 @@ function packages_apt_mark_explicit; sudo apt-mark manual $argv; end
 function packages_apt_install; sudo apt install $argv; end
 function packages_apply -a manager
     set selections $argv[2..]
-    if not has_string_changed pkgapply_$manager "$selections"
+    if not hc_state_changed pkgapply_$manager "$selections"
         return
     end
     set explicit (packages_{$manager}_get_explicitly_installed)
@@ -108,7 +121,7 @@ end
 source ~/home-configuration.fish
 
 if set -q watchexec
-    if hc_state_changed_do watchexec_version 2.3.2
+    if hc_state_changed watchexec_version 2.3.2 && hc_do "watchexec: installing"
         set dir (mktemp -d)
         and curl -L https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz \
           | tar -m -C $dir -J --strip-components=1 -x
@@ -117,5 +130,18 @@ if set -q watchexec
         rm -r $dir
     end
 end
+
+function _dl_ta
+    test -e $HOME/.textadept-bin
+    and return
+    set dir (mktemp -d)
+    cd $dir
+    curl -Lo https://github.com/orbitalquark/textadept/releases/download/textadept_12.7/textadept_12.7.linux.tgz
+    and tar -xaf textadept_12.7.linux.tgz
+    and sudo cp -rT textadept $HOME/.textadept-bin
+    rm -r $dir
+end
+set -q textadept; hc_if _dl_ta
+set -q textadept; hc_symlink_if $HOME/.textadept-bin/textadept $HOME/.local/bin/textadept
 
 safe_rm_symlink ~/.config/fish/conf.d

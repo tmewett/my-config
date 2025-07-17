@@ -80,6 +80,7 @@
     "editor.autoClosingQuotes": "never",
     "workbench.colorTheme": "GitHub Dark",
     "files.associations": {
-        "*.bzl": "python"
+        "*.bzl": "python",
+        "BUILD": "python"
     },
 }

@@ -17,3 +17,5 @@ while true; do
     esac
     shift
 done
+
+cd "$(dirname "$0")" || exit 1

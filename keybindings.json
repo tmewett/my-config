@@ -101,5 +101,10 @@
         "key": "ctrl+d",
         "command": "-dance.select.vertically",
         "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "ctrl+s",
+        "command": "dance.modes.set.normal",
+        "when": "editorTextFocus && dance.mode == 'insert'"
     }
 ]
