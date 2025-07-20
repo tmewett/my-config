@@ -133,15 +133,18 @@ end
 
 function _dl_ta
     test -e $HOME/.textadept-bin
+    or not hc_action "downloading textadept"
     and return
     set dir (mktemp -d)
     cd $dir
     curl -Lo https://github.com/orbitalquark/textadept/releases/download/textadept_12.7/textadept_12.7.linux.tgz
     and tar -xaf textadept_12.7.linux.tgz
-    and sudo cp -rT textadept $HOME/.textadept-bin
+    and mv -T textadept $HOME/.textadept-bin
+    and cd -
     rm -r $dir
 end
-set -q textadept; hc_if _dl_ta
-set -q textadept; hc_symlink_if $HOME/.textadept-bin/textadept $HOME/.local/bin/textadept
+set -q textadept; hc_if
+    hc_do_if _dl_ta
+    hc_symlink_if $HOME/.textadept-bin/textadept $HOME/.local/bin/textadept
 
 safe_rm_symlink ~/.config/fish/conf.d
