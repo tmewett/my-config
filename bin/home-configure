@@ -11,40 +11,67 @@ function hc_state_changed -a key value
     return 0
 end
 
-function hc_do -a message
+function hc_doing -a message
     echo $message
-    set -q hc_dry_run
+    set -q _hc_doing
 end
 
 function hc_state_save -a key value
-    set -q hc_dry_run || echo -n $value > $hc_state/$key
+    echo -n $value > $hc_state/$key
 end
 
 function safe_symlink -a to from
     if test -L $from
-        echo "safe_symlink: removing existing symlink $from"
-        rm $from
+        readlink -z $from | read -z existing_to
+        if test $to != $existing_to
+            hc_doing "removing existing symlink $from"
+            and rm $from
+        else
+            return 0
+        end
     end
-    if test -e $from
+    if test ! -L $from -a -e $from && hc_doing "prompting to remove existing file/directory $from"
         ls -l $from
-        test (read -P "delete $from? (y/N) ") = "y" || return
+        test "$(read -P "delete $from? (y/N) ")" = "y" || return
         rm -r $from
     end
-    echo "safe_symlink: creating $from -> $to"
-    mkdir -p (dirname $from)
-    ln -sT $to $from
+    hc_doing "creating $from -> $to"
+    and mkdir -p (dirname $from)
+    and ln -sT $to $from
 end
 
 function safe_rm_symlink -a link
-    if test -L $link
-        echo "safe_rm_symlink: removing $link"
-        set -q hc_dry_run || rm $link
+    if test -L $link && hc_doing "removing $link"
+        rm $link
     end
 end
 
+set hc_status 0
+
 function hc_if -a message
-    if test $status -eq 0
-        not set -q hc_dry_run && $argv[2..]
+    # test $status -eq 0
+    and not set -q hc_dry_run
+    set hc_status $status
+end
+
+function hc_then
+    test $hc_status -eq 0
+    and $argv
+end
+
+function hc_then_symlink -a to from
+    if test $hc_status -eq 0
+        safe_symlink $to $from
+    else
+        safe_rm_symlink $from
+    end
+end
+
+function hc_set_state_by
+    if hc_state_changed $argv[1..2]
+        $argv[3..]
+        and set -q _hc_doing
+        and hc_state_save $argv[1..2]
     end
 end
 
@@ -54,11 +81,6 @@ function hc_symlink_if -a to from
         not set -q hc_dry_run; and safe_symlink $argv
     end
 end
-
-argparse "n/dry-run" -- $argv
-or exit 1
-set -q _flag_n
-and set -g hc_dry_run
 
 set hc_state ~/.config/home-configure/state
 
@@ -74,11 +96,8 @@ function packages_apt_get_installed; dpkg-query -f '${Package}\n' -W; end
 function packages_apt_mark_implicit; sudo apt-mark auto $argv; end
 function packages_apt_mark_explicit; sudo apt-mark manual $argv; end
 function packages_apt_install; sudo apt install $argv; end
-function packages_apply -a manager
+function _packages_apply -a manager
     set selections $argv[2..]
-    if not hc_state_changed pkgapply_$manager "$selections"
-        return
-    end
     set explicit (packages_{$manager}_get_explicitly_installed)
     or return 1
     set installed (packages_{$manager}_get_installed)
@@ -90,9 +109,8 @@ function packages_apply -a manager
         end
     end
     if set -q make_explicit
-        echo "packages_apply $manager: marking as wanted: $make_explicit"
-        set -q hc_dry_run || packages_{$manager}_mark_explicit $make_explicit
-        or return 1
+        hc_doing "($manager) marking as wanted: $make_explicit"
+        and packages_{$manager}_mark_explicit $make_explicit || return 1
     end
     # explicit \ selections
     for pkg in $explicit
@@ -101,9 +119,8 @@ function packages_apply -a manager
         end
     end
     if set -q make_implicit
-        echo "packages_apply $manager: marking as dependency: $make_implicit"
-        set -q hc_dry_run || packages_{$manager}_mark_implicit $make_implicit
-        or return 1
+        hc_doing "($manager) marking as dependency: $make_implicit"
+        and packages_{$manager}_mark_implicit $make_implicit || return 1
     end
     # selections \ installed
     for pkg in $selections
@@ -112,39 +129,39 @@ function packages_apply -a manager
         end
     end
     if set -q install
-        echo "packages_apply $manager: installing $install"
-        set -q hc_dry_run || packages_{$manager}_install $install
-        or return 1
+        hc_doing "($manager) installing $install"
+        and packages_{$manager}_install $install || return 1
     end
 end
-
-source ~/home-configuration.fish
-
-if set -q watchexec
-    if hc_state_changed watchexec_version 2.3.2 && hc_do "watchexec: installing"
-        set dir (mktemp -d)
-        and curl -L https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz \
-          | tar -m -C $dir -J --strip-components=1 -x
-        and mv $dir/watchexec $HOME/.local/bin/watchexec
-        and hc_state_save watchexec_version 2.3.2
-        rm -r $dir
-    end
+function packages_apply
+    hc_set_state_by pkgapply_$argv[1] "$argv[2..]" _packages_apply $argv
 end
 
 function _dl_ta
     test -e $HOME/.textadept-bin
-    or not hc_action "downloading textadept"
+    or not hc_doing "downloading textadept"
     and return
     set dir (mktemp -d)
     cd $dir
-    curl -Lo https://github.com/orbitalquark/textadept/releases/download/textadept_12.7/textadept_12.7.linux.tgz
+    curl -LO https://github.com/orbitalquark/textadept/releases/download/textadept_12.7/textadept_12.7.linux.tgz
     and tar -xaf textadept_12.7.linux.tgz
     and mv -T textadept $HOME/.textadept-bin
-    and cd -
+    cd -
     rm -r $dir
 end
-set -q textadept; hc_if
-    hc_do_if _dl_ta
-    hc_symlink_if $HOME/.textadept-bin/textadept $HOME/.local/bin/textadept
 
-safe_rm_symlink ~/.config/fish/conf.d
+function configure
+    source ~/home-configuration.fish
+
+    set -q textadept; hc_if
+        hc_then _dl_ta
+        hc_then_symlink $HOME/.textadept-bin/textadept $HOME/.local/bin/textadept
+
+    safe_rm_symlink ~/.config/fish/conf.d
+end
+
+configure
+echo
+test "$(read -P "perform the above actions? (y/N) ")" = "y" || exit 0
+set _hc_doing
+configure
