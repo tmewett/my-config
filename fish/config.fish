@@ -24,8 +24,12 @@ if status is-interactive
     end
 end
 
+set my_config_dir (dirname (status filename))/..
 set -e fish_user_paths
-set -p PATH ~/.local/bin (dirname (status filename))/../bin
+set -p PATH ~/.local/bin $my_config_dir/bin
+if set -q MSYSTEM
+    set -p PATH $my_config_dir/bin.msys2
+end
 
 # rustup
 if test -e $HOME/.cargo/env.fish
@@ -36,8 +40,9 @@ if type -q gnome-terminal
     set -x T_TERMINAL gnome-terminal --
 else if w -q wt
     set -x T_TERMINAL 'w wt nt -p MSYS2'
+    set -x T_TERMINAL_CMD $my_config_dir/msyst
 end
 
-if w -q zoxide
-    w zoxide init fish | source
+if type -q zoxide
+    zoxide init fish | source
 end
