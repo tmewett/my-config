@@ -106,5 +106,10 @@
         "key": "ctrl+s",
         "command": "dance.modes.set.normal",
         "when": "editorTextFocus && dance.mode == 'insert'"
+    },
+    {
+        "key": "alt+z",
+        "command": "-dance.selections.restore.withCurrent",
+        "when": "editorTextFocus && dance.mode == 'normal'"
     }
 ]

@@ -81,6 +81,7 @@
     "workbench.colorTheme": "GitHub Dark",
     "files.associations": {
         "*.bzl": "python",
+        "*.bazel": "python",
         "BUILD": "python"
     },
 }
