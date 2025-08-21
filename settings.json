@@ -82,6 +82,7 @@
     "files.associations": {
         "*.bzl": "python",
         "*.bazel": "python",
-        "BUILD": "python"
+        "BUILD": "python",
+        "*.bst": "yaml"
     },
 }
