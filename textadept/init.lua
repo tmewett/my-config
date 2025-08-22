@@ -2,7 +2,9 @@ io.ensure_final_newline = true
 textadept.editing.strip_trailing_space = true
 textadept.session.save_on_quit = false
 
---[[
+textadept.menu.menubar['Edit'].title = 'Edit'
+textadept.menu.menubar['Buffer'].title = 'Buffer'
+
 local dance_mode = 'command'
 local function update_dance()
     if dance_mode == 'command' then
@@ -23,6 +25,11 @@ end
 
 keys['esc'] = function ()
     dance_mode = 'command'
+    update_dance()
+end
+keys['ctrl+s'] = function ()
+    dance_mode = 'command'
+    buffer.save()
     update_dance()
 end
 keys['i'] = function ()
@@ -54,7 +61,44 @@ keys['B'] = function ()
     if dance_mode ~= 'command' then return false end
     buffer:word_left_extend()
 end
-keys['f'] = function ()
+keys['h'] = function ()
     if dance_mode ~= 'command' then return false end
-
+    buffer:char_left()
 end
+keys['l'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:char_right()
+end
+keys['H'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:char_left_extend()
+end
+keys['L'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:char_right_extend()
+end
+keys['j'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:line_down()
+end
+keys['k'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:line_up()
+end
+keys['J'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:line_down_extend()
+end
+keys['K'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:line_up_extend()
+end
+keys['o'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:line_end()
+    buffer:new_line()
+end
+--keys['f'] = function ()
+--    if dance_mode ~= 'command' then return false end
+--
+--end
