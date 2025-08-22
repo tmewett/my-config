@@ -9,27 +9,27 @@ if ! type git >/dev/null 2>&1; then
     exit 1
 fi
 
-# Check if in a Git repository
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "Not inside a Git repository."
     exit 1
 fi
 
-# Check if the working directory is clean
+if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+    echo "Working directory has untracked files."
+    errors=1
+fi
+
 if ! git diff-index --quiet HEAD --; then
     echo "Working directory is not clean."
     errors=1
 fi
 
-# Check for stash entries
 if git stash list | grep -q .; then
     echo "There are stash entries."
     errors=1
 fi
 
-# Check for unpushed commits on all branches
 for branch in $(git branch --format="%(refname:short)"); do
-    # Check if the branch has an upstream
     if ! git rev-parse --abbrev-ref "$branch"@{u} >/dev/null 2>&1; then
         echo "Branch '$branch' does not have an upstream configured."
         errors=1

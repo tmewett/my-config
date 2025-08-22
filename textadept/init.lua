@@ -5,6 +5,10 @@ textadept.session.save_on_quit = false
 textadept.menu.menubar['Edit'].title = 'Edit'
 textadept.menu.menubar['Buffer'].title = 'Buffer'
 
+keys['ctrl+R'] = function ()
+    reset()
+end
+
 local dance_mode = 'command'
 local function update_dance()
     if dance_mode == 'command' then
@@ -23,6 +27,12 @@ local function next_char_of(c)
     return pos
 end
 
+-- done: esc
+-- fix h l H L to move from cursor
+-- fix w e b to select
+-- make i move to selection start
+-- unimplemented: u f t / a U F T A c y p P M-p M-P
+-- counts!! W E B j k J K o
 keys['esc'] = function ()
     dance_mode = 'command'
     update_dance()
@@ -34,7 +44,7 @@ keys['ctrl+s'] = function ()
 end
 keys['i'] = function ()
     if dance_mode ~= 'command' then return false end
-    dance_mode = nil
+    dance_mode = 'insert'
     update_dance()
 end
 keys['w'] = function ()
@@ -97,6 +107,8 @@ keys['o'] = function ()
     if dance_mode ~= 'command' then return false end
     buffer:line_end()
     buffer:new_line()
+    dance_mode = 'insert'
+    update_dance()
 end
 --keys['f'] = function ()
 --    if dance_mode ~= 'command' then return false end
