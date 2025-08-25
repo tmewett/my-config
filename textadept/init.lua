@@ -110,7 +110,21 @@ keys['o'] = function ()
     dance_mode = 'insert'
     update_dance()
 end
---keys['f'] = function ()
---    if dance_mode ~= 'command' then return false end
---
---end
+keys['O'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:begin_undo_action()
+    buffer:begin_undo_action()
+    buffer:vc_home()
+    buffer:new_line()
+    buffer:line_up()
+    dance_mode = 'insert'
+    update_dance()
+end
+keys['u'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:undo()
+end
+keys['U'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:redo()
+end
