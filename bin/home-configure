@@ -30,7 +30,7 @@ function safe_symlink -a to from
             return 0
         end
     end
-    if test ! -L $from -a -e $from && hc_doing "prompting to remove existing file/directory $from"
+    if test ! -L $from -a -e $from && hc_doing "asking to remove existing file/directory $from"
         ls -l $from
         test "$(read -P "delete $from? (y/N) ")" = "y" || return
         rm -r $from
