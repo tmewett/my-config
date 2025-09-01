@@ -20,7 +20,7 @@ function hc_state_save -a key value
     echo -n $value > $hc_state/$key
 end
 
-function safe_symlink -a to from
+function hc_safe_symlink -a to from
     if test -L $from
         readlink -z $from | read -z existing_to
         if test $to != $existing_to
@@ -40,7 +40,7 @@ function safe_symlink -a to from
     and ln -sT $to $from
 end
 
-function safe_rm_symlink -a link
+function hc_safe_rm_symlink -a link
     if test -L $link && hc_doing "removing $link"
         rm $link
     end
@@ -61,9 +61,9 @@ end
 
 function hc_then_symlink -a to from
     if test $hc_status -eq 0
-        safe_symlink $to $from
+        hc_safe_symlink $to $from
     else
-        safe_rm_symlink $from
+        hc_safe_rm_symlink $from
     end
 end
 
@@ -84,13 +84,6 @@ function hc_set_state_by
         $argv[3..]
         and set -q _hc_doing
         and hc_state_save $argv[1..2]
-    end
-end
-
-function hc_symlink_if -a to from
-    if test $status -eq 0
-        echo "symlinking $from -> $to"
-        not set -q hc_dry_run; and safe_symlink $argv
     end
 end
 
@@ -149,27 +142,8 @@ function packages_apply
     hc_set_state_by pkgapply_$argv[1] "$argv[2..]" _packages_apply $argv
 end
 
-function _dl_ta
-    test -e $HOME/.textadept-bin
-    or not hc_doing "downloading textadept"
-    and return
-    set dir (mktemp -d)
-    cd $dir
-    curl -LO https://github.com/orbitalquark/textadept/releases/download/textadept_12.7/textadept_12.7.linux.tgz
-    and tar -xaf textadept_12.7.linux.tgz
-    and mv -T textadept $HOME/.textadept-bin
-    cd -
-    rm -r $dir
-end
-
 function configure
     source ~/home-configuration.fish
-
-    set -q textadept; hc_if
-        hc_then _dl_ta
-        hc_then_symlink $HOME/.textadept-bin/textadept $HOME/.local/bin/textadept
-
-    safe_rm_symlink ~/.config/fish/conf.d
 end
 
 configure
