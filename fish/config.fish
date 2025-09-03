@@ -20,7 +20,7 @@ if status is-interactive
         if type -q fzf
             fzf_key_bindings
         end
-        fish_vi_key_bindings
+        fish_vi_key_bindings --no-erase
     end
 end
 
@@ -29,6 +29,12 @@ set -e fish_user_paths
 set -p PATH ~/.local/bin $my_config_dir/bin
 if set -q MSYSTEM
     set -p PATH $my_config_dir/bin.msys2
+end
+
+set -x E_EDITOR "x textadept"
+
+if test -e /c/Users/Tom
+    set -x tom /c/Users/Tom
 end
 
 # rustup

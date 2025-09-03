@@ -1,7 +1,7 @@
 io.ensure_final_newline = true
 textadept.editing.strip_trailing_space = true
 textadept.session.save_on_quit = false
-
+--[[
 textadept.menu.menubar['Edit'].title = 'Edit'
 textadept.menu.menubar['Buffer'].title = 'Buffer'
 
@@ -32,7 +32,7 @@ end
 -- fix w e b to select
 -- make i move to selection start
 -- unimplemented: u f t / a U F T A c y p P M-p M-P
--- counts!! W E B j k J K o
+-- counts!! W E B j k J K
 keys['esc'] = function ()
     dance_mode = 'command'
     update_dance()
@@ -49,15 +49,24 @@ keys['i'] = function ()
 end
 keys['w'] = function ()
     if dance_mode ~= 'command' then return false end
-    buffer:word_right()
+    for i, _ in ipairs(buffer.selection_n_caret) do
+        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
+    end
+    buffer:word_right_extend()
 end
 keys['e'] = function ()
     if dance_mode ~= 'command' then return false end
-    buffer:word_right_end()
+    for i, _ in ipairs(buffer.selection_n_caret) do
+        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
+    end
+    buffer:word_right_end_extend()
 end
 keys['b'] = function ()
     if dance_mode ~= 'command' then return false end
-    buffer:word_left()
+    for i, _ in ipairs(buffer.selection_n_caret) do
+        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
+    end
+    buffer:word_left_extend()
 end
 keys['W'] = function ()
     if dance_mode ~= 'command' then return false end
@@ -128,3 +137,4 @@ keys['U'] = function ()
     if dance_mode ~= 'command' then return false end
     buffer:redo()
 end
+]]
