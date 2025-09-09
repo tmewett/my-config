@@ -1,13 +1,13 @@
 io.ensure_final_newline = true
 textadept.editing.strip_trailing_space = true
 textadept.session.save_on_quit = false
---[[
-textadept.menu.menubar['Edit'].title = 'Edit'
-textadept.menu.menubar['Buffer'].title = 'Buffer'
 
 keys['ctrl+R'] = function ()
     reset()
 end
+
+textadept.menu.menubar['Edit'].title = 'Edit'
+textadept.menu.menubar['Buffer'].title = 'Buffer'
 
 local dance_mode = 'command'
 local function update_dance()
@@ -27,11 +27,14 @@ local function next_char_of(c)
     return pos
 end
 
+local function collapse_selections()
+    for i=1,buffer.selections do
+        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
+    end
+end
+
 -- done: esc
--- fix h l H L to move from cursor
--- fix w e b to select
--- make i move to selection start
--- unimplemented: u f t / a U F T A c y p P M-p M-P
+-- unimplemented: f t / F T c y p P M-p M-P x
 -- counts!! W E B j k J K
 keys['esc'] = function ()
     dance_mode = 'command'
@@ -44,28 +47,51 @@ keys['ctrl+s'] = function ()
 end
 keys['i'] = function ()
     if dance_mode ~= 'command' then return false end
+    for i=1,buffer.selections do
+        buffer.selection_n_caret[i] = buffer.selection_n_start[i]
+        buffer.selection_n_end[i] = buffer.selection_n_start[i]
+    end
     dance_mode = 'insert'
     update_dance()
 end
+keys['a'] = function ()
+    if dance_mode ~= 'command' then return false end
+    for i=1,buffer.selections do
+        buffer.selection_n_caret[i] = buffer.selection_n_end[i]
+        buffer.selection_n_start[i] = buffer.selection_n_end[i]
+    end
+    dance_mode = 'insert'
+    update_dance()
+end
+keys['I'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:vc_home()
+    dance_mode = 'insert'
+    update_dance()
+end
+keys['A'] = function ()
+    if dance_mode ~= 'command' then return false end
+    buffer:line_end()
+    dance_mode = 'insert'
+    update_dance()
+end
+keys[';'] = function ()
+    if dance_mode ~= 'command' then return false end
+    collapse_selections()
+end
 keys['w'] = function ()
     if dance_mode ~= 'command' then return false end
-    for i, _ in ipairs(buffer.selection_n_caret) do
-        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
-    end
+    collapse_selections()
     buffer:word_right_extend()
 end
 keys['e'] = function ()
     if dance_mode ~= 'command' then return false end
-    for i, _ in ipairs(buffer.selection_n_caret) do
-        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
-    end
+    collapse_selections()
     buffer:word_right_end_extend()
 end
 keys['b'] = function ()
     if dance_mode ~= 'command' then return false end
-    for i, _ in ipairs(buffer.selection_n_caret) do
-        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
-    end
+    collapse_selections()
     buffer:word_left_extend()
 end
 keys['W'] = function ()
@@ -82,10 +108,12 @@ keys['B'] = function ()
 end
 keys['h'] = function ()
     if dance_mode ~= 'command' then return false end
+    collapse_selections()
     buffer:char_left()
 end
 keys['l'] = function ()
     if dance_mode ~= 'command' then return false end
+    collapse_selections()
     buffer:char_right()
 end
 keys['H'] = function ()
@@ -122,10 +150,10 @@ end
 keys['O'] = function ()
     if dance_mode ~= 'command' then return false end
     buffer:begin_undo_action()
-    buffer:begin_undo_action()
     buffer:vc_home()
     buffer:new_line()
     buffer:line_up()
+    buffer:end_undo_action()
     dance_mode = 'insert'
     update_dance()
 end
@@ -137,4 +165,3 @@ keys['U'] = function ()
     if dance_mode ~= 'command' then return false end
     buffer:redo()
 end
-]]
