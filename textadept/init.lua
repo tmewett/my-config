@@ -9,12 +9,15 @@ end
 textadept.menu.menubar['Edit'].title = 'Edit'
 textadept.menu.menubar['Buffer'].title = 'Buffer'
 
+local default_caret_period = view.caret_period
 local dance_mode = 'command'
 local function update_dance()
     if dance_mode == 'command' then
         view.caret_style = view.CARETSTYLE_BLOCK
+        view.caret_period = 0
     else
         view.caret_style = view.CARETSTYLE_LINE
+        view.caret_period = default_caret_period
     end
 end
 update_dance()
@@ -33,8 +36,19 @@ local function collapse_selections()
     end
 end
 
+local function eat_one_key(callback)
+    local function handler(key_seq)
+        if utf8.len(key_seq) == 1 then
+            callback(key_seq)
+        end
+        events.disconnect(events.KEYPRESS, handler)
+        return true
+    end
+    events.connect(events.KEYPRESS, handler, 1)
+end
+
 -- done: esc
--- unimplemented: f t / F T c y p P M-p M-P x
+-- unimplemented: f t / F T y p P M-p M-P
 -- counts!! W E B j k J K
 keys['esc'] = function ()
     dance_mode = 'command'
@@ -78,6 +92,33 @@ end
 keys[';'] = function ()
     if dance_mode ~= 'command' then return false end
     collapse_selections()
+end
+keys[','] = function ()
+    if dance_mode ~= 'command' then return false end
+    local m = buffer.main_selection
+    local main_a, main_c = buffer.selection_n_anchor[m], buffer.selection_n_caret[m]
+    buffer:set_empty_selection(main_c)
+    buffer.selection_start = main_a
+end
+keys['d'] = function ()
+    if dance_mode ~= 'command' then return false end
+    -- this only does 1-char delete if all selections are empty
+    buffer:clear()
+end
+keys['c'] = function ()
+    if dance_mode ~= 'command' then return false end
+    -- this only does 1-char delete if all selections are empty
+    buffer:clear()
+    dance_mode = 'insert'
+    update_dance()
+end
+keys['x'] = function ()
+    if dance_mode ~= 'command' then return false end
+    textadept.editing.select_line()
+end
+keys['f'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(ui.output_silent)
 end
 keys['w'] = function ()
     if dance_mode ~= 'command' then return false end
