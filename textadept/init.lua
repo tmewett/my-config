@@ -47,6 +47,23 @@ local function eat_one_key(callback)
     events.connect(events.KEYPRESS, handler, 1)
 end
 
+local function extend_to_search(str, search_name, found_f)
+    local main = buffer.main_selection
+    for i=buffer.selections,1,-1 do
+        buffer.main_selection = i
+        buffer:search_anchor()
+        local anchor = buffer.selection_n_anchor[i]
+        local found_pos = buffer[search_name](buffer.FIND_MATCHCASE, str)
+        if found_pos == -1 then
+            buffer:drop_selection_n(i)
+        else
+            buffer.selection_n_anchor[i], buffer.selection_n_caret[i] = anchor, found_f(found_pos)
+        end
+    end
+end
+
+local function noop(x) return x end
+
 -- done: esc
 -- unimplemented: f t / F T y p P M-p M-P
 -- counts!! W E B j k J K
@@ -116,9 +133,31 @@ keys['x'] = function ()
     if dance_mode ~= 'command' then return false end
     textadept.editing.select_line()
 end
+keys['F'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        extend_to_search(key, 'search_next', function (p) return buffer:position_after(p) end)
+    end)
+end
+keys['T'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        extend_to_search(key, 'search_next', noop)
+    end)
+end
 keys['f'] = function ()
     if dance_mode ~= 'command' then return false end
-    eat_one_key(ui.output_silent)
+    eat_one_key(function (key)
+        collapse_selections()
+        extend_to_search(key, 'search_next', function (p) return buffer:position_after(p) end)
+    end)
+end
+keys['t'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        collapse_selections()
+        extend_to_search(key, 'search_next', noop)
+    end)
 end
 keys['w'] = function ()
     if dance_mode ~= 'command' then return false end
