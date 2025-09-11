@@ -63,7 +63,7 @@ keys['i'] = function ()
     if dance_mode ~= 'command' then return false end
     for i=1,buffer.selections do
         buffer.selection_n_caret[i] = buffer.selection_n_start[i]
-        buffer.selection_n_end[i] = buffer.selection_n_start[i]
+        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
     end
     dance_mode = 'insert'
     update_dance()
@@ -72,7 +72,7 @@ keys['a'] = function ()
     if dance_mode ~= 'command' then return false end
     for i=1,buffer.selections do
         buffer.selection_n_caret[i] = buffer.selection_n_end[i]
-        buffer.selection_n_start[i] = buffer.selection_n_end[i]
+        buffer.selection_n_anchor[i] = buffer.selection_n_caret[i]
     end
     dance_mode = 'insert'
     update_dance()
@@ -98,7 +98,7 @@ keys[','] = function ()
     local m = buffer.main_selection
     local main_a, main_c = buffer.selection_n_anchor[m], buffer.selection_n_caret[m]
     buffer:set_empty_selection(main_c)
-    buffer.selection_start = main_a
+    buffer.selection_n_anchor[1] = main_a
 end
 keys['d'] = function ()
     if dance_mode ~= 'command' then return false end
