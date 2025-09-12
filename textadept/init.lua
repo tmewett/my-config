@@ -6,6 +6,8 @@ keys['ctrl+R'] = function ()
     reset()
 end
 
+view.zoom = -1
+
 textadept.menu.menubar['Edit'].title = 'Edit'
 textadept.menu.menubar['Buffer'].title = 'Buffer'
 
@@ -64,9 +66,6 @@ end
 
 local function noop(x) return x end
 
--- done: esc
--- unimplemented: f t / F T y p P M-p M-P
--- counts!! W E B j k J K
 keys['esc'] = function ()
     dance_mode = 'command'
     update_dance()
@@ -132,6 +131,9 @@ end
 keys['x'] = function ()
     if dance_mode ~= 'command' then return false end
     textadept.editing.select_line()
+    --for i=1,buffer.selections do
+    --    buffer.selection_n_end[i] = buffer:position_after(buffer.selection_n_end[i])
+    --end
 end
 keys['F'] = function ()
     if dance_mode ~= 'command' then return false end
