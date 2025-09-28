@@ -8,7 +8,9 @@ end
 
 view.zoom = -1
 
+textadept.menu.menubar['File'].title = 'File'
 textadept.menu.menubar['Edit'].title = 'Edit'
+textadept.menu.menubar['Tools'].title = 'Tools'
 textadept.menu.menubar['Buffer'].title = 'Buffer'
 
 local default_caret_period = view.caret_period
@@ -159,6 +161,32 @@ keys['t'] = function ()
     eat_one_key(function (key)
         collapse_selections()
         extend_to_search(key, 'search_next', noop)
+    end)
+end
+keys['alt+F'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        extend_to_search(key, 'search_prev', noop)
+    end)
+end
+keys['alt+T'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        extend_to_search(key, 'search_prev', function (p) return buffer:position_after(p) end)
+    end)
+end
+keys['alt+f'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        collapse_selections()
+        extend_to_search(key, 'search_prev', noop)
+    end)
+end
+keys['alt+t'] = function ()
+    if dance_mode ~= 'command' then return false end
+    eat_one_key(function (key)
+        collapse_selections()
+        extend_to_search(key, 'search_prev', function (p) return buffer:position_after(p) end)
     end)
 end
 keys['w'] = function ()
