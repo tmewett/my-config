@@ -1,6 +1,7 @@
 io.ensure_final_newline = true
 textadept.editing.strip_trailing_space = true
 textadept.session.save_on_quit = false
+textadept.editing.auto_pairs["'"] = nil
 
 keys['ctrl+R'] = function ()
     reset()
