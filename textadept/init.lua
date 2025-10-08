@@ -134,9 +134,13 @@ end
 keys['x'] = function ()
     if dance_mode ~= 'command' then return false end
     textadept.editing.select_line()
-    --for i=1,buffer.selections do
-    --    buffer.selection_n_end[i] = buffer:position_after(buffer.selection_n_end[i])
-    --end
+    for i=1,buffer.selections do
+        if buffer.selection_n_end[i] == buffer.selection_n_anchor[i] then
+            buffer.selection_n_anchor[i] = buffer:position_after(buffer.selection_n_anchor[i])
+        else
+            buffer.selection_n_caret[i] = buffer:position_after(buffer.selection_n_caret[i])
+        end
+    end
 end
 keys['F'] = function ()
     if dance_mode ~= 'command' then return false end
