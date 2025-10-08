@@ -31,7 +31,7 @@ if set -q MSYSTEM
     set -p PATH $my_config_dir/bin.msys2
 end
 
-set -x E_EDITOR "x textadept -f"
+set -x E_EDITOR "x code"
 
 if test -e /c/Users/Tom
     set -x tom /c/Users/Tom

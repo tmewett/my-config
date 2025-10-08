@@ -85,4 +85,5 @@
         "BUILD": "python",
         "*.bst": "yaml"
     },
+    "dance.systemClipboardRegister": null,
 }
