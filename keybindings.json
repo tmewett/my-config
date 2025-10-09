@@ -1,4 +1,3 @@
-// Place your key bindings in this file to override the defaultsauto[]
 [
     {
         "key": "shift+alt+q",
@@ -102,10 +101,15 @@
         "command": "-dance.select.vertically",
         "when": "editorTextFocus && dance.mode == 'insert'"
     },
+    // {
+    //     "key": "ctrl+s",
+    //     "command": "dance.modes.set.normal",
+    //     "when": "editorTextFocus && dance.mode == 'insert'"
+    // },
     {
-        "key": "ctrl+s",
-        "command": "dance.modes.set.normal",
-        "when": "editorTextFocus && dance.mode == 'insert'"
+        "key": "escape",
+        "command": "workbench.action.files.save",
+        "when": "dance.mode == 'normal'"
     },
     {
         "key": "alt+z",
