@@ -18,9 +18,18 @@ abbr -a -- r explorer .
 if status is-interactive
     function fish_user_key_bindings
         if type -q fzf
+            if test -e /ucrt64/bin/fzf
+                source /ucrt64/share/fish/vendor_functions.d/fzf_key_bindings.fish
+            end
             fzf_key_bindings
         end
         fish_vi_key_bindings --no-erase
+        function _fzf_open
+            set file (fzf --height=40%)
+            and o $file
+        end
+        bind \co _fzf_open
+        bind -M insert \co _fzf_open
     end
 end
 
@@ -50,5 +59,8 @@ else if w -q wt
 end
 
 if type -q zoxide
-    zoxide init fish | source
+    if not test -e $my_config_dir/zoxide_init.fish
+        zoxide init fish > $my_config_dir/zoxide_init.fish
+    end
+    source $my_config_dir/zoxide_init.fish
 end
