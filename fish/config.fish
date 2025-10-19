@@ -27,6 +27,7 @@ if status is-interactive
         function _fzf_open
             set file (fzf --height=40%)
             and o $file
+            commandline -f repaint
         end
         bind \co _fzf_open
         bind -M insert \co _fzf_open

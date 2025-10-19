@@ -109,7 +109,7 @@
     {
         "key": "escape",
         "command": "workbench.action.files.save",
-        "when": "dance.mode == 'normal'"
+        "when": "editorTextFocus && dance.mode == 'normal'"
     },
     {
         "key": "alt+z",
