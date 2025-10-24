@@ -49,8 +49,6 @@ end
 set hc_status 0
 
 function hc_if -a message
-    # test $status -eq 0
-    and not set -q hc_dry_run
     set hc_status $status
 end
 
@@ -69,8 +67,8 @@ end
 
 function hc_then_sudo_put_file -a src dest
     if test $hc_status -eq 0
-        hc_doing "copying $src -> $dest"
-        and not cmp -s $src $dest
+        not cmp -s $src $dest
+        and hc_doing "copying $src -> $dest"
         and sudo cp -T $src $dest
     else
         test -e $dest

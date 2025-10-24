@@ -24,8 +24,6 @@ set -q kakoune_dir; hc_if
     hc_then_symlink $my_config_dir/kakoune $HOME/.config/kak/autoload/my_config
 
 test -d /etc/apparmor.d; hc_if
-
-false; hc_if
     hc_then_sudo_put_file $my_config_dir/bwrap.apparmor /etc/apparmor.d/bwrap
 
 hc_safe_rm_symlink ~/.config/fish/conf.d

@@ -1,6 +1,6 @@
 # My portable config. System-specific goes in the real config.fish
 
-set MSYS2_ENV_CONV_EXCL "$MSYS2_ENV_CONV_EXCL;GEM_PATH"
+set -x MSYS2_ENV_CONV_EXCL "$MSYS2_ENV_CONV_EXCL;GEM_PATH"
 
 # reset to default in case it was set in a parent
 set -e MSYS2_ARG_CONV_EXCL
@@ -9,7 +9,10 @@ set -e MSYS2_ARG_CONV_EXCL
 # -R - don't escape colours and text effects
 # -P prompt - the default medium/-m prompt, modified to always show the file
 #   (not just on first prompt) and appended with help info like 'man'
-set -gx LESS "-j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$"
+set -x LESS "-j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$"
+
+# this doesn't take into account ignorefiles
+set -x FZF_DEFAULT_COMMAND "find . ! -type d -printf '%P\n'"
 
 abbr -a -- c x code
 abbr -a -- g t w lazygit
