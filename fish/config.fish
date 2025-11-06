@@ -14,11 +14,9 @@ set -x LESS "-j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB
 # this doesn't take into account ignorefiles
 set -x FZF_DEFAULT_COMMAND "find . ! -type d -printf '%P\n'"
 
-abbr -a -- c x code
-abbr -a -- g t w lazygit
-abbr -a -- r explorer .
-
 if status is-interactive
+    abbr -a -- g t w lazygit
+    fish_hybrid_key_bindings
     function fish_user_key_bindings
         if type -q fzf
             if test -e /ucrt64/bin/fzf
@@ -26,7 +24,6 @@ if status is-interactive
             end
             fzf_key_bindings
         end
-        fish_vi_key_bindings --no-erase
         function _fzf_open
             set file (fzf --height=40%)
             and o $file
@@ -34,6 +31,12 @@ if status is-interactive
         end
         bind \co _fzf_open
         bind -M insert \co _fzf_open
+    end
+    function d -a name
+        cd "$(cat ~/.config/d/$name)"
+    end
+    function dsave -a name
+        echo -n $PWD > ~/.config/d/$name
     end
 end
 
@@ -60,11 +63,4 @@ if type -q gnome-terminal
 else if w -q wt
     set -x T_TERMINAL 'w wt nt -p MSYS2'
     set -x T_TERMINAL_CMD $my_config_dir/msyst
-end
-
-if type -q zoxide
-    if not test -e $my_config_dir/zoxide_init.fish
-        zoxide init fish > $my_config_dir/zoxide_init.fish
-    end
-    source $my_config_dir/zoxide_init.fish
 end
