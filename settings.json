@@ -1,7 +1,7 @@
 {
     "files.exclude": {
         "**/*.o": true,
-        ".venv": true,
+        ".venv": true
     },
     "files.insertFinalNewline": true,
     "files.hotExit": "off",
@@ -46,8 +46,7 @@
         "normal": {
             "hiddenSelectionsIndicatorsDecoration": {},
             "cursorStyle": "block-outline"
-            // "selectionBehavior": "character"
-        },
+        }
     },
     "diffEditor.renderSideBySide": false,
     "scm.defaultViewMode": "tree",
@@ -55,9 +54,6 @@
     "workbench.editor.languageDetection": false,
     "workbench.editor.historyBasedLanguageDetection": false,
     "editor.minimap.enabled": false,
-    "code-runner.executorMap": {
-        "python": "test -e Makefile && make $fullFileName; test -e .venv/bin/activate && source .venv/bin/activate; python -u $fullFileName",
-    },
     "code-runner.saveAllFilesBeforeRun": true,
     "html.autoCreateQuotes": false,
     "search.searchOnType": false,
@@ -83,8 +79,10 @@
         "*.bzl": "python",
         "*.bazel": "python",
         "BUILD": "python",
+        "WORKSPACE": "python",
+        "*.bzlmod": "python",
         "*.bst": "yaml"
     },
     "dance.systemClipboardRegister": null,
-    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreview": false
 }

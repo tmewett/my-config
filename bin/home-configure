@@ -46,7 +46,7 @@ function hc_safe_rm_symlink -a link
     end
 end
 
-set hc_status 0
+set hc_status 1
 
 function hc_if -a message
     set hc_status $status
@@ -55,6 +55,10 @@ end
 function hc_then
     test $hc_status -eq 0
     and $argv
+end
+
+function hc_end
+    set hc_status 1
 end
 
 function hc_then_symlink -a to from
@@ -68,11 +72,11 @@ end
 function hc_then_sudo_put_file -a src dest
     if test $hc_status -eq 0
         not cmp -s $src $dest
-        and hc_doing "copying $src -> $dest"
+        and hc_doing "copying $src -> $dest (with sudo)"
         and sudo cp -T $src $dest
     else
         test -e $dest
-        and hc_doing "deleting $dest"
+        and hc_doing "deleting $dest (with sudo)"
         and sudo rm $dest
     end
 end
@@ -137,15 +141,12 @@ function _packages_apply -a manager
     end
 end
 function packages_apply
-    hc_set_state_by pkgapply_$argv[1] "$argv[2..]" _packages_apply $argv
+    set sorted_pkgs (printf '%s\n' $argv[2..] | sort)
+    hc_set_state_by pkgapply_$argv[1] "$sorted_pkgs" _packages_apply $argv
 end
 
-function configure
-    source ~/home-configuration.fish
-end
-
-configure
+source ~/home-configuration.fish
 echo
 test "$(read -P "perform the above actions? (y/N) ")" = "y" || exit 0
 set _hc_doing
-configure
+source ~/home-configuration.fish
