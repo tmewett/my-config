@@ -6,8 +6,6 @@ print_help() {
 Edit a file."
 }
 
-wait=no
-
 if test $# -eq 0; then
     print_help
     exit 1
@@ -26,21 +24,17 @@ while true; do
     shift
 done
 
-case "$0" in
-ewait|*/ewait)
-    wait=yes
-    ;;
-esac
+# unset wait
+# case "$0" in
+# ewait|*/ewait)
+#     wait=
+#     ;;
+# esac
 
-if test -n "$E_EDITOR_WAIT" -a $wait = yes; then
-    editor="$E_EDITOR_WAIT"
-else
-    editor="$E_EDITOR"
-fi
+# if test -n "$E_EDITOR_WAIT" -a -v wait; then
+#     editor="$E_EDITOR_WAIT"
+# else
+#     editor="$E_EDITOR"
+# fi
 
-if test -z "$editor"; then
-    echo "error: E_EDITOR not set"
-    exit 1
-fi
-
-$editor "$@"
+x code "$@"
