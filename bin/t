@@ -17,17 +17,13 @@ while true; do
     shift
 done
 
-if [ $# -eq 0 ]; then
-    if w -q wt; then
-        exec w wt nt -p MSYS2
-    fi
-    if type -q gnome-terminal; then
-        exec gnome-terminal --
-    fi
-fi
 if w -q wt; then
-    exec w wt nt -p MSYS2 C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "fish -c '$*'"
+    if [ $# -eq 0 ]; then
+        exec w wt nt -p MSYS2
+    else
+        exec w wt nt -p MSYS2 C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "fish -c '$*'"
+    fi
 fi
-if type -q gnome-terminal; then
-    exec gnome-terminal --
+if type gnome-terminal &> /dev/null; then
+    exec gnome-terminal -- "$@"
 fi
