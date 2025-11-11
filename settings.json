@@ -79,6 +79,7 @@
         "*.bzl": "python",
         "*.bazel": "python",
         "BUILD": "python",
+        "*.BUILD": "python",
         "WORKSPACE": "python",
         "*.bzlmod": "python",
         "*.bst": "yaml"
