@@ -69,16 +69,10 @@ function hc_then_symlink -a to from
     end
 end
 
-function hc_then_sudo_put_file -a src dest
-    if test $hc_status -eq 0
-        not cmp -s $src $dest
-        and hc_doing "copying $src -> $dest (with sudo)"
-        and sudo cp -T $src $dest
-    else
-        test -e $dest
-        and hc_doing "deleting $dest (with sudo)"
-        and sudo rm $dest
-    end
+function hc_sudo_cp -a src dest
+    not cmp -s $src $dest
+    and hc_doing "copying $src -> $dest (with sudo)"
+    and sudo cp -T $src $dest
 end
 
 function hc_set_state_by

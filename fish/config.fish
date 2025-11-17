@@ -38,6 +38,9 @@ if status is-interactive
     function dsave -a name
         echo -n $PWD > ~/.config/d/$name
     end
+    function p
+        cd -
+    end
 end
 
 set my_config_dir (dirname (status filename))/..

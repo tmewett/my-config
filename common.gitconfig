@@ -8,7 +8,7 @@
 	spellingdictionary = none
 	geometry = 1280x720 300 400
 [pull]
-	ff = only
+	rebase = true
 [push]
 	default = upstream
 [rebase]
