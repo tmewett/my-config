@@ -33,10 +33,12 @@ if status is-interactive
         bind -M insert \co _fzf_open
     end
     function d -a name
-        cd "$(cat ~/.config/d/$name)"
+        set dir "$(cat ~/.config/d/$name)"
+        and cd $dir
     end
     function dsave -a name
-        echo -n $PWD > ~/.config/d/$name
+        mkdir -p ~/.config/d
+        and echo -n $PWD > ~/.config/d/$name
     end
     function p
         cd -
