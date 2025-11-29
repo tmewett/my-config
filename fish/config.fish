@@ -33,6 +33,10 @@ if status is-interactive
         bind -M insert \co _fzf_open
     end
     function d -a name
+        if test -n $name
+            ls ~/.config/d
+            return
+        end
         set dir "$(cat ~/.config/d/$name)"
         and cd $dir
     end
