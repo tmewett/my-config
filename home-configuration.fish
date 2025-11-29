@@ -40,38 +40,38 @@ if hc_doing "writing $keymapper_conf"
     end
     begin
         cat $my_config_dir/keymapper.conf
-        shorthand "A" and
-        shorthand "B" but
-        shorthand "C" can
-        shorthand "D" don\'t
-        shorthand "F" for
-        shorthand "G" going
-        shorthand "H" have
-        shorthand "I" I
-        shorthand "J" just
-        shorthand "K" know
-        shorthand "L" like
-        shorthand "M" from
-        shorthand "N" not
-        shorthand "O" out
-        shorthand "P" people
-        shorthand "T" the
-        shorthand "W" with
-        shorthand "Y" you
-        shorthand "A B" about
-        shorthand "A F" after
-        shorthand "B C" because
-        shorthand "C D" could
-        shorthand "C N" couldn\'t
-        shorthand "D S" doesn\'t
-        shorthand "I M" I\'m
-        shorthand "I O" into
-        shorthand "I V" I\'ve
-        shorthand "O V" over
-        shorthand "T N" then
-        shorthand "T Z" these
-        shorthand "W D" would
-        shorthand "W N" wouldn\'t
-        shorthand "W O" without
+        # shorthand "A" and
+        # shorthand "B" but
+        # shorthand "C" can
+        # shorthand "D" don\'t
+        # shorthand "F" for
+        # shorthand "G" going
+        # shorthand "H" have
+        # shorthand "I" I
+        # shorthand "J" just
+        # shorthand "K" know
+        # shorthand "L" like
+        # shorthand "M" from
+        # shorthand "N" not
+        # shorthand "O" out
+        # shorthand "P" people
+        # shorthand "T" the
+        # shorthand "W" with
+        # shorthand "Y" you
+        # shorthand "A B" about
+        # shorthand "A F" after
+        # shorthand "B C" because
+        # shorthand "C D" could
+        # shorthand "C N" couldn\'t
+        # shorthand "D S" doesn\'t
+        # shorthand "I M" I\'m
+        # shorthand "I O" into
+        # shorthand "I V" I\'ve
+        # shorthand "O V" over
+        # shorthand "T N" then
+        # shorthand "T Z" these
+        # shorthand "W D" would
+        # shorthand "W N" wouldn\'t
+        # shorthand "W O" without
     end > $keymapper_conf
 end
