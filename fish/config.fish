@@ -33,7 +33,7 @@ if status is-interactive
         bind -M insert \co _fzf_open
     end
     function d -a name
-        if test -n $name
+        if test -z "$name"
             ls ~/.config/d
             return
         end
