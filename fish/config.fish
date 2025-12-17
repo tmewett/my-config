@@ -47,6 +47,10 @@ if status is-interactive
     function p
         cd -
     end
+    function nuke
+        find $argv[1] -exec chmod 777 '{}' +
+        and rm -r $argv[1]
+    end
 end
 
 set my_config_dir (dirname (status filename))/..
