@@ -48,7 +48,8 @@ if status is-interactive
         cd -
     end
     function nuke
-        find $argv[1] -exec chmod 777 '{}' +
+        # -R also makes chmod ignores symlinks, so we can't use find -exec chmod
+        chmod -R 777 $argv[1]
         and rm -r $argv[1]
     end
 end
