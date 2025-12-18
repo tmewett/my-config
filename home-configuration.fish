@@ -1,15 +1,10 @@
 set my_config_dir (dirname (status filename))
 
-if test -d /etc/apparmor.d
-    hc_sudo_cp $my_config_dir/bwrap.apparmor /etc/apparmor.d/bwrap
-end
-
 hc_safe_symlink $my_config_dir/settings.json ~/.config/Code/User/settings.json
 hc_safe_symlink $my_config_dir/keybindings.json ~/.config/Code/User/keybindings.json
 hc_safe_symlink $my_config_dir/snippets ~/.config/Code/User/snippets
 
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
-hc_safe_rm_symlink ~/.config/fish/conf.d
 
 set keymapper_conf ~/.config/keymapper.conf
 hc_safe_symlink $my_config_dir/keymapper.conf $keymapper_conf
