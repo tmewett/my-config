@@ -6,6 +6,16 @@ hc_safe_symlink $my_config_dir/snippets ~/.config/Code/User/snippets
 
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
 
+if test ! -e ~/.local/bin/lazygit && hc_doing "downloading lazygit to ~/.local/bin/lazygit"
+    set dir (mktemp -d)
+    cd $dir
+    curl -Lo lazygit.tgz https://github.com/jesseduffield/lazygit/releases/download/v0.57.0/lazygit_0.57.0_linux_x86_64.tar.gz
+    and tar -xf lazygit.tgz
+    and mv -T lazygit $HOME/.local/bin/lazygit
+    cd -
+    rm -r $dir
+end
+
 set keymapper_conf ~/.config/keymapper.conf
 hc_safe_symlink $my_config_dir/keymapper.conf $keymapper_conf
 
