@@ -52,6 +52,12 @@ if status is-interactive
         chmod -R 777 $argv[1]
         and rm -r $argv[1]
     end
+    function gh-fork-branch -a specString
+        set spec (string split -- : $specString)
+        and set remote_url (string replace -r -- ':\w+/' :$spec[1]/)
+        and git remote add fork/$spec[1] $remote_url
+        and git switch $spec[2]
+    end
 end
 
 set my_config_dir (dirname (status filename))/..
