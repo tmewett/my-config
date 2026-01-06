@@ -58,6 +58,34 @@ if status is-interactive
         and git remote add fork/$spec[1] $remote_url
         and git switch $spec[2]
     end
+    function _reversed_prompt_cwd
+        set cwd (string split / -- (prompt_pwd))
+        echo -n $cwd[-1]
+        for part in $cwd[-2..1]
+            echo -n "\\$part"
+        end
+    end
+    function fish_title
+        echo -n $_ ' '
+        _reversed_prompt_cwd
+    end
+    function t
+        if set -q argv[1]
+            set set_title_cmd (string escape -- echo -n \e"]0;$argv[1] $(_reversed_prompt_cwd)"\e\\)
+            set argv_cmd (string escape -- $argv)
+            set cmd fish -c "$set_title_cmd; $argv"
+        end
+        if w -q wt
+            if not set -q $argv[1]
+                w wt nt -p MSYS2
+            else
+                w wt nt -p MSYS2 C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "fish -c '$argv'"
+            end
+        end
+        if type -q gnome-terminal
+            x gnome-terminal -- $cmd
+        end
+    end
 end
 
 set my_config_dir (dirname (status filename))/..
