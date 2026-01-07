@@ -75,13 +75,10 @@ if status is-interactive
             set set_title_cmd (string escape -- echo -n \e"]0;$argv[1]  $(_reversed_prompt_cwd)"\e\\)
             set argv_cmd (string escape -- $argv)
             set cmd fish -c "$set_title_cmd; $argv"
+            set msys_cmd C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "fish -c '$argv'"
         end
         if w -q wt
-            if not set -q $argv[1]
-                w wt nt -p MSYS2
-            else
-                w wt nt -p MSYS2 C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "fish -c '$argv'"
-            end
+            w wt nt -p MSYS2 $msys_cmd
         end
         if type -q gnome-terminal
             x gnome-terminal -- $cmd
