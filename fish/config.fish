@@ -71,7 +71,7 @@ if status is-interactive
     end
     function t
         if set -q argv[1]
-            set set_title_cmd (string escape -- echo -n \e"]0;$argv[1] $(_reversed_prompt_cwd)"\e\\)
+            set set_title_cmd (string escape -- echo -n \e"]0;$argv[1]  $(_reversed_prompt_cwd)"\e\\)
             set argv_cmd (string escape -- $argv)
             set cmd fish -c "$set_title_cmd; $argv"
         end
