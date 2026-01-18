@@ -87,6 +87,23 @@ if status is-interactive
             x gnome-terminal -- $cmd
         end
     end
+    if test $(hostname) = "phoenix"
+        function prepare-backup
+            pushd $tom/files/projects
+            or return 1
+            for d in *
+                cd $d
+                w git gc
+                cd ..
+            end
+            popd
+        end
+        function backup
+            pushd $tom/files
+            or return 1
+            ~/borg.venv/bin/python -m borg create -C auto,zstd --progress --patterns-from borg-filter ::windows-from-msys2-\{now\} . ../AppData/vault
+        end
+    end
 end
 
 set my_config_dir (dirname (status filename))/..
