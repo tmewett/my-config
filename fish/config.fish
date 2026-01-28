@@ -13,7 +13,7 @@ set -e MSYS2_ARG_CONV_EXCL
 set -x LESS "-F -j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB%pB\%:byte %bB?s/%s...%t (press h for help or q to quit)\$"
 
 # this doesn't take into account ignorefiles
-set -x FZF_DEFAULT_COMMAND "find . ! -type d -printf '%P\n'"
+set -x FZF_DEFAULT_COMMAND "find . \( -name .git -or -name \*venv \) -prune -or ! -type d -printf '%P\n'"
 
 if status is-interactive
     abbr -a -- g t w lazygit
