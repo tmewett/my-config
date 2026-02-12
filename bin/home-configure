@@ -97,7 +97,13 @@ function packages_apt_get_installed; dpkg-query -f '${Package}\n' -W; end
 function packages_apt_mark_implicit; sudo apt-mark auto $argv; end
 function packages_apt_mark_explicit; sudo apt-mark manual $argv; end
 function packages_apt_install; sudo apt install $argv; end
+set _packages_apply_command
 function _packages_apply -a manager
+    if set -q _hc_doing
+        echo $_packages_apply_command
+        eval $_packages_apply_command
+        return
+    end
     set selections $argv[2..]
     set explicit (packages_{$manager}_get_explicitly_installed)
     or return 1
@@ -111,7 +117,7 @@ function _packages_apply -a manager
     end
     if set -q make_explicit
         hc_doing "($manager) marking as wanted: $make_explicit"
-        and packages_{$manager}_mark_explicit $make_explicit || return 1
+        set _packages_apply_command "$_packages_apply_command; packages_$manager""_mark_explicit $make_explicit"
     end
     # explicit \ selections
     for pkg in $explicit
@@ -121,7 +127,7 @@ function _packages_apply -a manager
     end
     if set -q make_implicit
         hc_doing "($manager) marking as dependency: $make_implicit"
-        and packages_{$manager}_mark_implicit $make_implicit || return 1
+        set _packages_apply_command "$_packages_apply_command; packages_$manager""_mark_implicit $make_implicit"
     end
     # selections \ installed
     for pkg in $selections
@@ -131,7 +137,7 @@ function _packages_apply -a manager
     end
     if set -q install
         hc_doing "($manager) installing $install"
-        and packages_{$manager}_install $install || return 1
+        set _packages_apply_command "$_packages_apply_command; packages_$manager""_install $install"
     end
 end
 function packages_apply
