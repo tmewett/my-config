@@ -48,6 +48,10 @@ if status is-interactive
     function p
         cd -
     end
+    function c --wraps=cd
+        cd $argv
+        and ls
+    end
     function nuke
         # -R also makes chmod ignores symlinks, so we can't use find -exec chmod
         chmod -R 777 $argv[1]
@@ -74,9 +78,9 @@ if status is-interactive
         if set -q argv[1]
             set set_title_cmd (string escape -- echo -n \e"]0;$argv[1]  $(_reversed_prompt_cwd)"\e\\)
             set argv_cmd (string escape -- $argv)
-            set cmd fish -c "$set_title_cmd; $argv"
+            set cmd fish -c "$set_title_cmd; $argv_cmd"
             if set -q MSYSTEM
-                echo "$set_title_cmd; $argv" > /tmp/t_cmd
+                echo "rm /tmp/t_cmd; $set_title_cmd; $argv_cmd" > /tmp/t_cmd
                 set msys_cmd C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "exec fish /tmp/t_cmd"
             end
         end
