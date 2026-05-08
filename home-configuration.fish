@@ -6,6 +6,8 @@ hc_safe_symlink $my_config_dir/snippets ~/.config/Code/User/snippets
 
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
 
+hc_safe_symlink $my_config_dir/ssh_config ~/.ssh/config
+
 if test ! -e ~/.local/bin/lazygit && hc_doing "downloading lazygit to ~/.local/bin/lazygit"
     set dir (mktemp -d)
     cd $dir
