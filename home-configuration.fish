@@ -1,14 +1,16 @@
 set my_config_dir (dirname (status filename))
+if not set -q APPDATA; set APPDATA ~/.config; end
+if not set -q USERPROFILE; set USERPROFILE ~; end
 
-hc_safe_symlink $my_config_dir/settings.json ~/.config/Code/User/settings.json
-hc_safe_symlink $my_config_dir/keybindings.json ~/.config/Code/User/keybindings.json
-hc_safe_symlink $my_config_dir/snippets ~/.config/Code/User/snippets
+hc_safe_symlink_native $my_config_dir/settings.json $APPDATA/Code/User/settings.json
+hc_safe_symlink_native $my_config_dir/keybindings.json $APPDATA/Code/User/keybindings.json
+hc_safe_symlink_native $my_config_dir/snippets $APPDATA/Code/User/snippets
 
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
 
 hc_safe_symlink $my_config_dir/ssh_config ~/.ssh/config
 
-if test ! -e ~/.local/bin/lazygit && hc_doing "downloading lazygit to ~/.local/bin/lazygit"
+if false && hc_doing "downloading lazygit to ~/.local/bin/lazygit"
     set dir (mktemp -d)
     cd $dir
     curl -Lo lazygit.tgz https://github.com/jesseduffield/lazygit/releases/download/v0.57.0/lazygit_0.57.0_linux_x86_64.tar.gz
@@ -18,8 +20,7 @@ if test ! -e ~/.local/bin/lazygit && hc_doing "downloading lazygit to ~/.local/b
     rm -r $dir
 end
 
-set keymapper_conf ~/.config/keymapper.conf
-hc_safe_symlink $my_config_dir/keymapper.conf $keymapper_conf
+hc_safe_symlink_native $my_config_dir/keymapper.conf $USERPROFILE/keymapper.conf
 
 if false #hc_doing "writing $keymapper_conf"
     function shorthand -a code exp

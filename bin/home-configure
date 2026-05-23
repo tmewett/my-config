@@ -20,52 +20,39 @@ function hc_state_save -a key value
     echo -n $value > $hc_state/$key
 end
 
-function hc_safe_symlink -a to from
-    if test -L $from
-        readlink -z $from | read -z existing_to
-        if test $to != $existing_to
-            hc_doing "removing existing symlink $from"
-            and rm $from
+function hc_safe_symlink -a target path
+    if test -L $path
+        readlink -z $path | read -z existing_target
+        if test $target != $existing_target
+            if hc_doing "removing existing symlink $path"
+                rm $path
+            else
+                ls -l $path
+            end
         else
             return 0
         end
+    else if test -e $path
+        if hc_doing "removing existing file/directory $path"
+            rm -r $path
+        else
+            echo "# ls -l $path"
+            ls -l $path
+            echo "#"
+        end
     end
-    if test ! -L $from -a -e $from && hc_doing "asking to remove existing file/directory $from"
-        ls -l $from
-        test "$(read -P "delete $from? (y/N) ")" = "y" || return
-        rm -r $from
-    end
-    hc_doing "creating $from -> $to"
-    and mkdir -p (dirname $from)
-    and ln -sT $to $from
+    hc_doing "creating $path -> $target"
+    and mkdir -p (dirname $path)
+    and ln -sT $target $path
+end
+
+function hc_safe_symlink_native
+    MSYS="$MSYS winsymlinks:nativestrict" hc_safe_symlink $argv
 end
 
 function hc_safe_rm_symlink -a link
     if test -L $link && hc_doing "removing $link"
         rm $link
-    end
-end
-
-set hc_status 1
-
-function hc_if -a message
-    set hc_status $status
-end
-
-function hc_then
-    test $hc_status -eq 0
-    and $argv
-end
-
-function hc_end
-    set hc_status 1
-end
-
-function hc_then_symlink -a to from
-    if test $hc_status -eq 0
-        hc_safe_symlink $to $from
-    else
-        hc_safe_rm_symlink $from
     end
 end
 
@@ -142,6 +129,7 @@ function _packages_apply -a manager
 end
 function packages_apply
     set sorted_pkgs (printf '%s\n' $argv[2..] | sort)
+    # we can also set the var if _packages_apply_command is empty
     hc_set_state_by pkgapply_$argv[1] "$sorted_pkgs" _packages_apply $argv
 end
 
