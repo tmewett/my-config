@@ -20,7 +20,11 @@ if false && hc_doing "downloading lazygit to ~/.local/bin/lazygit"
     rm -r $dir
 end
 
-hc_safe_symlink_native $my_config_dir/keymapper.conf $USERPROFILE/keymapper.conf
+if set -q MSYSTEM
+    hc_safe_symlink_native $my_config_dir/keymapper.conf $USERPROFILE/keymapper.conf
+else
+    hc_safe_symlink $my_config_dir/keymapper.conf ~/.config/keymapper.conf
+end
 
 if false #hc_doing "writing $keymapper_conf"
     function shorthand -a code exp
