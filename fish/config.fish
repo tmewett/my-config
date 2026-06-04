@@ -109,7 +109,7 @@ end
 
 set my_config_dir (dirname (status filename))/..
 set -e fish_user_paths
-set -p PATH ~/.local/bin $my_config_dir/bin
+set -p PATH ~/.local/bin $my_config_dir/bin ~/.bun/bin
 if set -q MSYSTEM
     set -p PATH $my_config_dir/bin.msys2
 end
