@@ -1,3 +1,10 @@
 #!/usr/bin/env fish
+set choices
+function +
+    set -a choices $argv
+end
 
-e $argv
++ 'open $argv'
+
+if not set -q choices[1]; exit 1; end
+eval $choices[1]
