@@ -10,20 +10,6 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "ctrl+\\",
-        "command": "workbench.action.splitEditor"
-    },
-    {
-        "key": "alt+0",
-        "command": "cursorPageDown",
-        "when": "textInputFocus"
-    },
-    {
-        "key": "alt+9",
-        "command": "cursorPageUp",
-        "when": "textInputFocus"
-    },
-    {
         "key": "ctrl+b",
         "command": "-dance.select.vertically",
         "when": "editorTextFocus && dance.mode == 'normal'"
@@ -101,11 +87,6 @@
         "command": "-dance.select.vertically",
         "when": "editorTextFocus && dance.mode == 'insert'"
     },
-    // {
-    //     "key": "ctrl+s",
-    //     "command": "dance.modes.set.normal",
-    //     "when": "editorTextFocus && dance.mode == 'insert'"
-    // },
     {
         "key": "escape",
         "command": "workbench.action.files.save",
@@ -115,5 +96,15 @@
         "key": "alt+z",
         "command": "-dance.selections.restore.withCurrent",
         "when": "editorTextFocus && dance.mode == 'normal'"
+    },
+    {
+        "key": "ctrl+tab",
+        "command": "jumpToNextSnippetPlaceholder",
+        "when": "hasNextTabstop && inSnippetMode && textInputFocus"
+    },
+    {
+        "key": "tab",
+        "command": "-jumpToNextSnippetPlaceholder",
+        "when": "hasNextTabstop && inSnippetMode && textInputFocus"
     }
 ]
