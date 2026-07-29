@@ -1,9 +1,36 @@
-(defsrc
-  q w e r t y u i o p
-  a s d f g h j k l ;
-  z x c v b n m , . /)
+;; (defsrc
+;;   q w e r t y u i o p
+;;   a s d f g h j k l ;
+;;   z x c v b n m , . /
+;;   f13)
+(defsrc)
 
-(deflayer colemak
-  q w f p g j l u y ;
-  a r s t d h n e i o
-  z x c v b k m , . /)
+;; (deflayer colemak
+;;   q w f p g j l u y ;
+;;   a r s t d h n e i o
+;;   z x c v b k m , . /)
+
+(deflayermap (default)
+  f13 (tap-hold-order 0 0 esc (layer-while-held nav)))
+
+(deflayermap (nav)
+  e    bck
+  r    fwd
+  y    C-del
+  u    C-left
+  i    C-bspc
+  o    C-rght
+  p    del
+  esc  lrld
+  d    ctl
+  f    shft
+  h    left
+  j    down
+  k    up
+  l    rght
+  ;    bspc
+  apos (macro down ret)
+  n    home
+  m    pgdn
+  ,    pgup
+  .    end)
