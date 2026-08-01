@@ -132,8 +132,8 @@ function packages_apply -a manager
     end
 end
 
-source ~/home-configuration.fish
+source $my_config_dir/home-configuration.fish
 echo
 test "$(read -P "perform the above actions? (y/N) ")" = "y" || exit 0
 set _hc_doing
-source ~/home-configuration.fish
+source $my_config_dir/home-configuration.fish

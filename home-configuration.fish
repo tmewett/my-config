@@ -1,4 +1,5 @@
-set my_config_dir (dirname (status filename))
+source ~/home-configuration.fish
+
 if not set -q APPDATA; set APPDATA ~/.config; end
 if not set -q USERPROFILE; set USERPROFILE ~; end
 
