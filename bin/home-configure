@@ -36,9 +36,9 @@ function hc_safe_symlink -a target path
         if hc_doing "removing existing file/directory $path"
             rm -r $path
         else
-            echo "# ls -l $path"
+            echo "==="
             ls -l $path
-            echo "#"
+            echo "==="
         end
     end
     hc_doing "creating $path -> $target"
