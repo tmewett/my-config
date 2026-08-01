@@ -74,7 +74,6 @@
     "editor.bracketPairColorization.enabled": false,
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingQuotes": "never",
-    "workbench.colorTheme": "GitHub Dark Default",
     "files.associations": {
         "*.bzl": "python",
         "*.bazel": "python",
@@ -85,5 +84,6 @@
         "*.bst": "yaml"
     },
     "dance.systemClipboardRegister": null,
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "workbench.colorTheme": "Dark Modern"
 }
