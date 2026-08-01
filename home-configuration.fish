@@ -2,9 +2,15 @@ set my_config_dir (dirname (status filename))
 if not set -q APPDATA; set APPDATA ~/.config; end
 if not set -q USERPROFILE; set USERPROFILE ~; end
 
-hc_safe_symlink_native $my_config_dir/settings.json $APPDATA/Code/User/settings.json
-hc_safe_symlink_native $my_config_dir/keybindings.json $APPDATA/Code/User/keybindings.json
-hc_safe_symlink_native $my_config_dir/snippets $APPDATA/Code/User/snippets
+if set -q MSYSTEM
+    set vscode_config_dir $USERPROFILE/scoop/persist/vscodium/data/user-data
+else
+    set vscode_config_dir $APPDATA/Code
+end
+
+hc_safe_symlink_native $my_config_dir/settings.json $vscode_config_dir/User/settings.json
+hc_safe_symlink_native $my_config_dir/keybindings.json $vscode_config_dir/User/keybindings.json
+hc_safe_symlink_native $my_config_dir/snippets $vscode_config_dir/User/snippets
 
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
 
