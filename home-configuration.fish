@@ -14,7 +14,10 @@ hc_safe_symlink_native $my_config_dir/snippets $vscode_config_dir/User/snippets
 
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
 
-hc_safe_symlink $my_config_dir/ssh_config ~/.ssh/config
+# ControlMaster is broken on Windows
+if not set -q MSYSTEM
+    hc_safe_symlink $my_config_dir/ssh_config ~/.ssh/config
+end
 
 if false && hc_doing "downloading lazygit to ~/.local/bin/lazygit"
     set dir (mktemp -d)
