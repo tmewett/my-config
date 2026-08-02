@@ -74,6 +74,8 @@ if status is-interactive
         echo -n $_ ' '
         _reversed_prompt_cwd
     end
+    complete -c w -e
+    complete -c w -w exec
     function t
         if set -q argv[1]
             set set_title_cmd (string escape -- echo -n \e"]0;$argv[1]  $(_reversed_prompt_cwd)"\e\\)
