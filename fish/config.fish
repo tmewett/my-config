@@ -45,6 +45,9 @@ if status is-interactive
         mkdir -p ~/.config/d
         and echo -n $PWD > ~/.config/d/$name
     end
+    function e
+        w vscodium $argv
+    end
     function c --wraps=cd
         cd $argv
         and ls
