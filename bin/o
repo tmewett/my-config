@@ -1,10 +1,16 @@
 #!/usr/bin/env fish
-set choices
 function +
-    set -a choices $argv
+    set -ga choices $argv
 end
 
 + 'open $argv'
++ 'w vscodium $argv'
 
 if not set -q choices[1]; exit 1; end
-eval $choices[1]
+set this (status basename)
+if test $this = oi
+    set command (printf "%s\0" $choices | fzf --read0)
+    and eval $command
+else
+    eval $choices[1]
+end
