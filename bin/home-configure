@@ -57,9 +57,10 @@ function hc_safe_rm_symlink -a link
 end
 
 function hc_sudo_cp -a src dest
-    not cmp -s $src $dest
-    and hc_doing "copying $src -> $dest (with sudo)"
-    and sudo cp -T $src $dest
+    if test ! -e $src && hc_doing "copying $src -> $dest (with sudo)"
+        sudo mkdir -p (basename $src)
+        sudo cp -T $src $dest
+    end
 end
 
 function hc_set_state_by
