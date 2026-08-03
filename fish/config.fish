@@ -50,7 +50,7 @@ if status is-interactive
         and echo -n $PWD > ~/.config/d/$name
     end
     function e
-        w vscodium $argv
+        x vscodium $argv
     end
     function c --wraps=cd
         cd $argv
