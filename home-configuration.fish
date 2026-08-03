@@ -13,6 +13,8 @@ hc_safe_symlink_native $my_config_dir/settings.json $vscode_config_dir/User/sett
 hc_safe_symlink_native $my_config_dir/keybindings.json $vscode_config_dir/User/keybindings.json
 hc_safe_symlink_native $my_config_dir/snippets $vscode_config_dir/User/snippets
 
+hc_safe_symlink_native $my_config_dir/lazygit/config.yml ~/.config/lazygit/config.yml
+
 hc_safe_symlink $my_config_dir/fish/functions ~/.config/fish/functions
 
 # ControlMaster is broken on Windows
