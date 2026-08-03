@@ -1,5 +1,9 @@
 # My portable config. System-specific goes in the real config.fish
 
+if not set -q my_config_dir
+    echo "Warning: my_config_dir is not set"
+end
+
 set -x MSYS2_ENV_CONV_EXCL "$MSYS2_ENV_CONV_EXCL;GEM_PATH"
 
 # reset to default in case it was set in a parent
