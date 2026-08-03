@@ -92,9 +92,10 @@ if status is-interactive
         end
         if w -q wt
             w wt nt -p MSYS2 $msys_cmd
-        end
-        if type -q gnome-terminal
+        else if type -q gnome-terminal
             x gnome-terminal -- $cmd
+        else if type -q alacritty
+            x alacritty -T "$argv[1]  $(_reversed_prompt_cwd)" -e $argv
         end
     end
     function prepare-backup
