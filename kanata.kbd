@@ -34,7 +34,8 @@
   n    home
   m    pgdn
   ,    pgup
-  .    end)
+  .    end
+  /    (macro C-l end))
 
 (deflayermap (pentagon)
   1    f1
