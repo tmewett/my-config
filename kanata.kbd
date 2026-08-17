@@ -11,8 +11,9 @@
 ;;   z x c v b k m , . /)
 
 (deflayermap (default)
-  f13 (tap-hold-press 0 200 esc (layer-while-held triangle))
-  f14 (tap-hold-press 0 200 nubs (layer-while-held pentagon)))
+  f13  (tap-hold-press 0 200 esc (layer-while-held triangle))
+  caps (tap-hold-press 0 200 esc (layer-while-held triangle))
+  f14  (tap-hold-press 0 200 nubs (layer-while-held pentagon)))
 
 (deflayermap (triangle)
   e    bck
