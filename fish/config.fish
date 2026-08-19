@@ -41,7 +41,11 @@ function t
     else if type -q gnome-terminal
         x gnome-terminal -- $cmd
     else if type -q alacritty
-        x alacritty -T "$argv[1]  $(_reversed_prompt_cwd)" -e $argv
+        if set -q argv[1]
+            x alacritty -T "$argv[1]  $(_reversed_prompt_cwd)" -e $argv
+        else
+            x alacritty
+        end
     end
 end
 if status is-interactive
