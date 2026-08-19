@@ -25,19 +25,19 @@
     "terminal.integrated.allowChords": false,
     "git-graph.commitDetailsView.location": "Docked to Bottom",
     "git-graph.markdown": false,
-    "[plaintext]": {
-        "editor.tabCompletion": "off",
-        "editor.fontFamily": "Arial, Helvetica Neue, Sans",
-        "editor.lineHeight": 20,
-        "editor.fontSize": 18,
-        "editor.wordWrap": "on"
-    },
-    "[markdown]": {
-        "editor.fontFamily": "Arial, Helvetica Neue, Sans",
-        "editor.lineHeight": 20,
-        "editor.fontSize": 18,
-        "editor.wordWrap": "on"
-    },
+    // "[plaintext]": {
+    //     "editor.tabCompletion": "off",
+    //     "editor.fontFamily": "Arial, Helvetica Neue, Sans",
+    //     "editor.lineHeight": 20,
+    //     "editor.fontSize": 18,
+    //     "editor.wordWrap": "on"
+    // },
+    // "[markdown]": {
+    //     "editor.fontFamily": "Arial, Helvetica Neue, Sans",
+    //     "editor.lineHeight": 20,
+    //     "editor.fontSize": 18,
+    //     "editor.wordWrap": "on"
+    // },
     "security.workspace.trust.untrustedFiles": "open",
     "dance.modes": {
         "insert": {
