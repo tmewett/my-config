@@ -19,6 +19,31 @@ set -x LESS "-F -j .5 -R -P ?f%f :- .?m(%T %i of %m) .?e(END) ?x- Next\: %x.:?pB
 # this doesn't take into account ignorefiles
 set -x FZF_DEFAULT_COMMAND "find . \( -name .git -or -name \*venv \) -prune -or ! -type d -printf '%P\n'"
 
+function _reversed_prompt_cwd
+    set cwd (string split / -- (prompt_pwd))
+    echo -n $cwd[-1]
+    for part in $cwd[-2..1]
+        echo -n "\\$part"
+    end
+end
+function t
+    if set -q argv[1]
+        set set_title_cmd (string escape -- echo -n \e"]0;$argv[1]  $(_reversed_prompt_cwd)"\e\\)
+        set argv_cmd (string escape -- $argv)
+        set cmd fish -c "$set_title_cmd; $argv_cmd"
+        if set -q MSYSTEM
+            echo "rm /tmp/t_cmd; $set_title_cmd; $argv_cmd" > /tmp/t_cmd
+            set msys_cmd C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "exec fish /tmp/t_cmd"
+        end
+    end
+    if w -q wt
+        w wt nt -p MSYS2 $msys_cmd
+    else if type -q gnome-terminal
+        x gnome-terminal -- $cmd
+    else if type -q alacritty
+        x alacritty -T "$argv[1]  $(_reversed_prompt_cwd)" -e $argv
+    end
+end
 if status is-interactive
     abbr -a -- g t w lazygit
     fish_hybrid_key_bindings
@@ -67,37 +92,12 @@ if status is-interactive
         and git remote add fork/$spec[1] $remote_url
         and git switch $spec[2]
     end
-    function _reversed_prompt_cwd
-        set cwd (string split / -- (prompt_pwd))
-        echo -n $cwd[-1]
-        for part in $cwd[-2..1]
-            echo -n "\\$part"
-        end
-    end
     function fish_title
         echo -n $_ ' '
         _reversed_prompt_cwd
     end
     complete -c w -e
     complete -c w -w exec
-    function t
-        if set -q argv[1]
-            set set_title_cmd (string escape -- echo -n \e"]0;$argv[1]  $(_reversed_prompt_cwd)"\e\\)
-            set argv_cmd (string escape -- $argv)
-            set cmd fish -c "$set_title_cmd; $argv_cmd"
-            if set -q MSYSTEM
-                echo "rm /tmp/t_cmd; $set_title_cmd; $argv_cmd" > /tmp/t_cmd
-                set msys_cmd C:\\msys64\\msys2_shell.cmd -defterm -no-start -here -c "exec fish /tmp/t_cmd"
-            end
-        end
-        if w -q wt
-            w wt nt -p MSYS2 $msys_cmd
-        else if type -q gnome-terminal
-            x gnome-terminal -- $cmd
-        else if type -q alacritty
-            x alacritty -T "$argv[1]  $(_reversed_prompt_cwd)" -e $argv
-        end
-    end
     function prepare-backup
         pushd $tom/files/projects
         or return 1
